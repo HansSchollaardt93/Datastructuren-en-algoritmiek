@@ -8,9 +8,11 @@ import java.util.Scanner;
  */
 public class RSHeap {
 	private static int HEAP_SIZE;
-	private static final int RANDOM_NUMBERS = 2000;
-	private static final int RANDOMIZE_AROUND = 5000;
+	private static final int RANDOM_NUMBERS = 200;
+	private static final int RANDOMIZE_AROUND = 500;
+	
 	private int[] random, heap;
+	
 	private boolean done;
 	private Scanner in;
 	private PrintWriter out;
@@ -50,6 +52,8 @@ public class RSHeap {
 		buildheap(dead space);
 //		write rest to OUT
 		printToOutput(rest);
+		in.close();
+		out.close();
 
 	}
 
