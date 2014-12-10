@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class RSHeap {
 	private static int HEAP_SIZE;
-	private static final int RANDOM_NUMBERS = 200;
+	private static final int RANDOM_NUMBERS = 100;
 	private static final int RANDOMIZE_AROUND = 500;
 	private int indexRandomArray;
 	private int[] random, heap;
@@ -17,16 +17,15 @@ public class RSHeap {
 	public RSHeap(int heapsize) {
 		init(heapsize);
 
-
 		int next;
-		// read HEAP_SIZE-elements into heap-array
-		
+
+		//Build the heap for the first time
 		buildHeap();
 		// while array still holds more values, continue
 		while (hasNext()) {
 			// remove smallest element from heap and write this to OUT
 			int smallest = findMin();
-			
+			System.out.println(indexRandomArray);
 			next = getNextInt();
 			printToOutput(smallest); 
 			
@@ -45,19 +44,19 @@ public class RSHeap {
 				HEAP_SIZE--;
 //				DEADSPACE_SIZE++;
 				// insert next into deadspace
-				
 			}
 			if (heap.length == 0){
+				
 				buildHeap();
 			}
 
 			// write single value out to file
 		}
-		//write remainder of heap to OUT
-		printToOutput(0, HEAP_SIZE);
-		buildHeap();
-//		write remainder to OUT
-		printToOutput(HEAP_SIZE, heap.length);
+//		//write remainder of heap to OUT
+//		printToOutput(0, HEAP_SIZE);
+//		buildHeap();
+////		write remainder to OUT
+//		printToOutput(HEAP_SIZE, heap.length);
 		out.close();
 
 	}
@@ -69,10 +68,10 @@ public class RSHeap {
 	}
 
 	private void perculateUp(int index) {
-		int parentIndex = (int)((index - 1)/2);	
+		int parentIndex = (index - 1)/2;	
 		if(index>=0){
 			int parentValue = heap[parentIndex];
-			if(parentValue < heap[index]){
+			if(parentValue > heap[index]){
 				//swap parents value with childs value
 				int tempValue = parentValue;
 				heap[parentIndex] = heap[index];
@@ -83,7 +82,9 @@ public class RSHeap {
 	}
 
 	private boolean hasNext() {
-		return (indexRandomArray >= 0);
+		System.out.println("random "+indexRandomArray);
+		System.out.println(RANDOM_NUMBERS);
+		return (indexRandomArray <= RANDOM_NUMBERS);
 	}
 
 	/**
@@ -120,12 +121,14 @@ public class RSHeap {
 
 		heap = new int[HEAP_SIZE];
 		random = new int[RANDOM_NUMBERS];
-		indexRandomArray = random.length - 1;
+//		indexRandomArray = random.length - 1;
 		// generate random numbers to fill array
 		for (int i = 0; i < random.length; i++) {
 			random[i] = (int) (Math.random() * RANDOMIZE_AROUND);
 			// System.out.println(random[i]);
 		}
+		// read HEAP_SIZE-elements into heap-array
+		fillHeap();
 		// Initialize in- and outputs
 		try {
 			// in = new Scanner("inputfile.txt");
@@ -166,9 +169,7 @@ public class RSHeap {
 			 * else if left < parent
 			 *   swap with parent
 			 *   perculateDown(index left)
-			 */
-			
-			
+			 */			
 			int tempvalue;
 			left = getLeftChild(startIndex);
 			if(hasRightChild(startIndex) && getRightChild(startIndex)>lastIndex){
@@ -213,7 +214,7 @@ public class RSHeap {
 	 */
 	private void buildHeap() {
 		// perculate down
-		for (int i = ((heap.length / 2) - 1); i >= 0; i--) {
+		for (int i = ((heap.length - 1)/ 2); i >= 0; i--) {
 			perculateDown(i, HEAP_SIZE);
 		}
 	}
@@ -261,5 +262,31 @@ public class RSHeap {
 
 	private boolean hasRightChild(int index) {
 		return (getRightChild(index) != -1);
+	}
+	
+	private void fillHeap(){
+		for (int i = 0; i < heap.length; i++) {
+			System.out.println("Fill "+i);
+			heap[i] = random[i];
+			indexRandomArray++;
+		}
+	}
+	
+	/**
+	 * Created a DotString of the heap 
+	 * @return The DotString of the heap
+	 */
+	public String toDotString() {
+		String res = "digraph heap {\n";
+		for (int i = 0; i < heap.length; i++) {
+			res += "n" + i + "[label=\"" + heap[i] + "\"]\n";
+		}
+		for (int i = 0; i < heap.length / 2; i++) {
+			res += "n" + i + "-> n" + (i * 2 + 1) + ";\n";
+			res += "n" + i + "-> n" + (i * 2 + 2) + ";\n";
+		}
+		res += "}";
+		return res;
+
 	}
 }
