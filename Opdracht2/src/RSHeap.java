@@ -8,13 +8,10 @@ import java.util.Scanner;
  */
 public class RSHeap {
 	private static int HEAP_SIZE;
-	private static int DEADSPACE_SIZE;
 	private static final int RANDOM_NUMBERS = 200;
 	private static final int RANDOMIZE_AROUND = 500;
 	private int indexRandomArray;
 	private int[] random, heap;
-
-	private Scanner in;
 	private PrintWriter out;
 
 	public RSHeap(int heapsize) {
@@ -30,7 +27,7 @@ public class RSHeap {
 			// remove smallest element from heap and write this to OUT
 			int smallest = findMin();
 			
-			next = Integer.parseInt(in.nextLine());
+			next = getNextInt();
 			printToOutput(smallest); 
 			
 			heap[0] = heap[HEAP_SIZE];
@@ -40,13 +37,15 @@ public class RSHeap {
 			// insert next into heap
 				HEAP_SIZE++;
 				heap[HEAP_SIZE] = next;
-				perculateUp(0, HEAP_SIZE);	//re-order the heap
+				perculateUp(HEAP_SIZE);	//re-order the heap
 			} else {
 				// Heapsize H--, Deadspace++
 				perculateDown(0, HEAP_SIZE);
+				heap[HEAP_SIZE+1] = next;
 				HEAP_SIZE--;
-				DEADSPACE_SIZE++;
+//				DEADSPACE_SIZE++;
 				// insert next into deadspace
+				
 			}
 			if (heap.length == 0){
 				buildHeap();
@@ -55,13 +54,32 @@ public class RSHeap {
 			// write single value out to file
 		}
 		//write remainder of heap to OUT
-		printToOutput(heap);
+		printToOutput(0, HEAP_SIZE);
 		buildHeap();
 //		write remainder to OUT
-		printToOutput(rest);
-		in.close();
+		printToOutput(HEAP_SIZE, heap.length);
 		out.close();
 
+	}
+
+	private int getNextInt() {
+		int randomNumber = random[indexRandomArray];
+		indexRandomArray++;
+		return randomNumber;
+	}
+
+	private void perculateUp(int index) {
+		int parentIndex = (int)((index - 1)/2);	
+		if(index>=0){
+			int parentValue = heap[parentIndex];
+			if(parentValue < heap[index]){
+				//swap parents value with childs value
+				int tempValue = parentValue;
+				heap[parentIndex] = heap[index];
+				heap[index] = tempValue;
+				perculateUp(parentIndex);
+			}
+		}
 	}
 
 	private boolean hasNext() {
@@ -74,8 +92,11 @@ public class RSHeap {
 	 * @param array
 	 *            array to write to file
 	 */
-	private void printToOutput(int[] array) {
-
+	private void printToOutput(int startindex, int endindex) {
+		for (int i = startindex; i < endindex; i++) {
+			out.println(heap[i]);
+		}
+		
 	}
 
 	/**
@@ -95,7 +116,7 @@ public class RSHeap {
 	 */
 	private void init(int heapsize) {
 		HEAP_SIZE = heapsize;
-		DEADSPACE_SIZE = 0;
+//		DEADSPACE_SIZE = 0;
 
 		heap = new int[HEAP_SIZE];
 		random = new int[RANDOM_NUMBERS];
@@ -131,8 +152,8 @@ public class RSHeap {
 		int left = 0, right = 0, parent = 0;
 		parent = heap[startIndex];
 
-		// check if children are smaller then your own value
-		if (hasLeftChild(startIndex)) {
+		// check if children are smaller then your own value AND if child is located within the heap.
+		if (hasLeftChild(startIndex) && getLeftChild(startIndex)>lastIndex) {
 			/* PSEUDOCODE
 			 * if has right
 			 *  compare left and right
@@ -146,9 +167,11 @@ public class RSHeap {
 			 *   swap with parent
 			 *   perculateDown(index left)
 			 */
+			
+			
 			int tempvalue;
 			left = getLeftChild(startIndex);
-			if(hasRightChild(startIndex)){
+			if(hasRightChild(startIndex) && getRightChild(startIndex)>lastIndex){
 				right = getRightChild(startIndex);
 				if(left<right){
 					//swap left with parent
@@ -156,7 +179,7 @@ public class RSHeap {
 					parent = left;
 					parent = tempvalue;
 					//continue perculate at left childs position
-					perculateDown(getLeftChild(startIndex));
+					perculateDown(getLeftChild(startIndex), lastIndex);
 					//right is bigger than left
 				} else {
 					//swap right with parent
@@ -164,7 +187,7 @@ public class RSHeap {
 					parent = right;
 					parent = tempvalue;
 					//continue perculate at right childs position
-					perculateDown(getRightChild(startIndex));
+					perculateDown(getRightChild(startIndex), lastIndex);
 				}
 			//Only has left child
 			} else {
@@ -174,7 +197,7 @@ public class RSHeap {
 					parent = left;
 					parent = tempvalue;
 					//continue perculate at left childs position
-					perculateDown(getLeftChild(startIndex));
+					perculateDown(getLeftChild(startIndex), lastIndex);
 				}
 				//do nothing, numbers are in right order
 			}
@@ -189,22 +212,21 @@ public class RSHeap {
 	 *            Array to rebuild in good heap format
 	 */
 	private void buildHeap() {
-
 		// perculate down
 		for (int i = ((heap.length / 2) - 1); i >= 0; i--) {
-			perculateDown(i);
+			perculateDown(i, HEAP_SIZE);
 		}
 	}
 
-	private void deleteMin() {
-		// delete index 0
-		heap[0] = heap[HEAP_SIZE];
-		// perculate down
-		perculateDown(0);
-	}
+//	private void deleteMin() {
+//		// delete index 0
+//		heap[0] = heap[HEAP_SIZE];
+//		// perculate down
+//		perculateDown(0, HEAP_SIZE);
+//	}
 
 	private void insert(int toInsert) {
-
+		
 	}
 
 	private boolean isEmpty() {

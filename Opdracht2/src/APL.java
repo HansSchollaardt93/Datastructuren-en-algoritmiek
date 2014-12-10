@@ -1,6 +1,6 @@
 
 public class APL {
 	public static void main(String[] args) {
-		new RSHeap(0);
+		new RSHeap(1000);
 	}
 }
