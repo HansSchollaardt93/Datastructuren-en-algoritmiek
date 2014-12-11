@@ -1,5 +1,7 @@
+package def;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 /**
  * 
@@ -7,51 +9,59 @@ import java.io.PrintWriter;
  */
 public class RSHeap {
 	private static int HEAP_SIZE;
-	private static final int RANDOM_NUMBERS = 137;
-	private static final int RANDOMIZE_AROUND = 5000;
-	private int indexRandomArray, output;
+	private static final int RANDOM_NUMBERS = 45;
+	private static final int RANDOMIZE_AROUND = 500;
+	private int indexRandomArray = 0, output;
 	private int[] random, heap;
 	private PrintWriter out;
 	private int DEADSPACE_SIZE;
 
 	public RSHeap(int heapsize) {
-		init(heapsize);
-		// read HEAP_SIZE-elements into heap-array
+		init();
+		DEADSPACE_SIZE = 0;
+		heap = new int[heapsize];
+		HEAP_SIZE = heapsize -1;
 		fillHeap();
-		// Build the heap for the first time
 		buildHeap();
+		
+		startSorting();
+
+	}
+
+	private void startSorting(){
 		// while array still holds more values, continue
 		while (indexRandomArray < random.length) {
-
 			removeItem();
 			insert(random[indexRandomArray]);
 			indexRandomArray++;
 		}
-//		// write remainder of heap to OUT
-//		System.err.println("<---- REST OF THE HEAP!! --->");
-//		printToOutput(0, HEAP_SIZE);
-//		buildHeap();
-//		// write remainder to OUT
-//		System.err.println("<---- THE REMAINDER!! --->");
-//		printToOutput(0, HEAP_SIZE);
-out.close();
-		System.out.println(toDotString());
+		// write remainder of heap to OUT
+		System.err.println("<---- REST OF THE HEAP!! --->");
+		writeHeap();
+		buildHeap();
+		// write remainder to OUT
+		System.err.println("<---- THE REMAINDER!! --->");
+		writeHeap();
+		out.close();
 	}
-
+	
 	/**
 	 * 
 	 * @return
 	 */
-	private int removeItem() {
+	private void removeItem() {
+		
 		System.out.println(heap[0] + "  Item number  "
-				+ (indexRandomArray+1));
+				+ (indexRandomArray));
 		printToOutput(heap[0] + "\t  Item number  "
-				+ (indexRandomArray+1));
+				+ (indexRandomArray));
+		assert (heap[0] >= output) : "Heap[0] smaller than last value!";
+		
 		output = heap[0];
 		heap[0] = heap[HEAP_SIZE];
+//		System.out.println("Perculating down: "+heap[0]);
 		HEAP_SIZE--;
 		perculateDown(0);
-		return output;
 	}
 
 	/**
@@ -65,6 +75,7 @@ out.close();
 			if (heap.length - DEADSPACE_SIZE == 0) {
 				System.err.println("<---- NEXT RUN!! ---->");
 				out.println("<---- NEXT RUN!! ---->");
+				//HEAPSIZE == 0, dus geen items meer in heap -> maak van deadspace de nieuwe heap; buildHeap
 				buildHeap();
 			}
 		} else {
@@ -80,7 +91,8 @@ out.close();
 	 */
 	private void perculateUp(int index) {
 		int parentIndex = (index - 1) / 2;
-		if (index >= 0) {
+		assert (parentIndex>=0);
+		if (index > 0){
 			if (heap[parentIndex] > heap[index]) {
 				// swap parents value with childs value
 				swap(parentIndex, index);
@@ -94,6 +106,7 @@ out.close();
 	 * @param currentIndex
 	 */
 	private void perculateDown(int currentIndex) {
+		assert (currentIndex >= 0);
 		int current = heap[currentIndex];
 		
 		int left = (currentIndex * 2) + 1;
@@ -103,8 +116,9 @@ out.close();
 		 * check if children are smaller then your own value AND check if child
 		 * is located within the heap.
 		 */
+		// both right and left children exist
 		if (right <= HEAP_SIZE) {
-			// both right and left children exist
+			//check if either sides is bigger than yourself; if so, swap with the bigger;
 			if (current > heap[left] || current > heap[right]) {
 				if (heap[left] < heap[right]) {
 					// swap left with parent
@@ -116,9 +130,10 @@ out.close();
 					swap(right, currentIndex);
 					perculateDown(right);
 				}
-			//only has a left child
-			} else {
-				if (heap[left] < current) {
+			//check if parent has left child
+			} else if (left <= HEAP_SIZE){
+				//only has a left child
+				if (current > heap[left]) {
 					// swap left with parent
 					swap(left, currentIndex);
 				}
@@ -127,9 +142,9 @@ out.close();
 	}
 
 	private void swap(int current, int toSwapWith) {
-		int temp = heap[current];
+		int tempvalue = heap[current];
 		heap[current] = heap[toSwapWith];
-		heap[toSwapWith] = temp;
+		heap[toSwapWith] = tempvalue;
 	}
 
 	/**
@@ -159,19 +174,14 @@ out.close();
 	 * @param heapsize
 	 *            Desired heapsize (length of array)
 	 */
-	private void init(int heapsize) {
-		HEAP_SIZE = heapsize;
-		DEADSPACE_SIZE = 0;
-		heap = new int[HEAP_SIZE];
+	private void init() {
 		random = new int[RANDOM_NUMBERS];
 		// generate random numbers to fill array
 		for (int i = 0; i < random.length; i++) {
 			random[i] = (int) (Math.random() * RANDOMIZE_AROUND);
-			// System.out.println(random[i]);
 		}
-		// Initialize in- and outputs
+		// Initialize output
 		try {
-			// in = new Scanner("inputfile.txt");
 			out = new PrintWriter("outputfile.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -187,19 +197,38 @@ out.close();
 	 */
 	private void buildHeap() {
 		// perculate down
+		//reset the heap values
 		DEADSPACE_SIZE = 0;
-		HEAP_SIZE = heap.length - 1;
-		for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
-			perculateDown(i);
+		HEAP_SIZE = heap.length-1;
+		int start = ((heap.length - 1)/2);
+		while(start>=0){
+				perculateDown(start);
+				start--;
+		}
+//		for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
+//			perculateDown(i);
+//		}
+		
+	}
+	
+	private void writeHeap() {
+		for (int i = 0; i < HEAP_SIZE; i++) {
+			removeItem();
 		}
 	}
 
+	
 	private void fillHeap() {
 		System.err.println("<----   FILLING THINGS UP!   ----->\n");
-		for (int i = 0; i < heap.length; i++) {
-			System.out.println("Filling index " + i);
-			heap[i] = random[i];
+		while(indexRandomArray<heap.length){
+			heap[indexRandomArray] = random[indexRandomArray];
+			indexRandomArray++;
 		}
+//		for (int i = 0; i < heap.length; i++) {
+//			System.out.println("Filling index " + i);
+//			heap[i] = random[i];
+//			indexRandomArray++;
+//		}
 	}
 
 	/**
@@ -219,5 +248,19 @@ out.close();
 		res += "}";
 		return res;
 
+	}
+	
+	
+
+	private void printCurrentHeap(){
+		int[] tempHeap = new int[HEAP_SIZE];
+		for (int i = 0; i < HEAP_SIZE; i++) {
+			tempHeap[i] = heap[i]; 
+		}
+		int[] tempDS = new int[DEADSPACE_SIZE];
+		for (int i = HEAP_SIZE; i < DEADSPACE_SIZE; i++) {
+			tempDS[i] = heap[i]; 
+		}
+		System.err.println("HEAP: "+Arrays.toString(tempHeap) + "\nDS:"+Arrays.toString(tempDS));
 	}
 }
