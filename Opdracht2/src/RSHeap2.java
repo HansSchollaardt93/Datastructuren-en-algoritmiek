@@ -146,18 +146,6 @@ public class RSHeap2 {
 	}
 
 	/**
-	 * Method to print the remainder of arrays to output file
-	 * 
-	 * @param array
-	 *            array to write to file
-	 */
-	private void printToOutput(int startindex, int endindex) {
-		for (int i = startindex; i < endindex; i++) {
-			out.println(heap[i]);
-		}
-	}
-
-	/**
 	 * Method to print single integer to output file
 	 * 
 	 * @param smallest
@@ -199,7 +187,7 @@ public class RSHeap2 {
 	 *            Array to rebuild in good heap format
 	 */
 	private void buildHeap() {
-		// perculate down
+		// percolate down
 		DEADSPACE_SIZE = 0;
 		HEAP_SIZE = heap.length - 1;
 		for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
