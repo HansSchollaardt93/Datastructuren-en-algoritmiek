@@ -12,10 +12,9 @@ public class RSHeap {
 	private final int RANDOM_NUMBERS;
 	private static final int RANDOMIZE_AROUND = 5000;
 	private int indexRandomArray = 0, output;
-	private int writtenToOutput=0;
+	private int writtenToOutput = 0;
 	private int[] random, heap;
 	private PrintWriter out;
-	
 
 	public RSHeap(int heapsize, int elements) {
 		RANDOM_NUMBERS = elements;
@@ -25,7 +24,7 @@ public class RSHeap {
 		HEAP_SIZE = heapsize - 1;
 		fillHeap();
 		buildHeap();
-//		System.err.println(toDotString());
+		// System.err.println(toDotString());
 		startSorting();
 	}
 
@@ -38,13 +37,13 @@ public class RSHeap {
 		}
 		// write remainder of heap to OUT
 		out.println("<---- REST OF THE HEAP!! --->");
-//		System.err.println("<---- REST OF THE HEAP!! --->");
+		// System.err.println("<---- REST OF THE HEAP!! --->");
 		writeHeap();
 		buildHeap();
 		out.println("<---- THE REMAINDER!! --->");
-//		System.out.println(toDotString());
+		// System.out.println(toDotString());
 		// write remainder to OUT
-//		System.err.println("<---- THE REMAINDER!! --->");
+		// System.err.println("<---- THE REMAINDER!! --->");
 		writeHeap();
 		out.close();
 	}
@@ -54,12 +53,13 @@ public class RSHeap {
 	 * @return
 	 */
 	private void removeItem() {
-//		System.out.println(heap[0] + "  Item number  " + (indexRandomArray) + " HEAPSIZE lenght =" + HEAP_SIZE);
-		printToOutput(heap[0] + "  Item number " + (writtenToOutput) + " HEAPSIZE lenght =" + HEAP_SIZE);
+		// System.out.println(heap[0] + "  Item number  " + (indexRandomArray) +
+		// " HEAPSIZE lenght =" + HEAP_SIZE);
+		printToOutput(heap[0] + "  Item number " + (writtenToOutput)
+				+ " HEAPSIZE lenght =" + HEAP_SIZE);
 		writtenToOutput++;
 		output = heap[0];
 		heap[0] = heap[HEAP_SIZE];
-		// System.out.println("Perculating down: "+heap[0]);
 		HEAP_SIZE--;
 		percolateDown(0);
 	}
@@ -73,11 +73,11 @@ public class RSHeap {
 			heap[HEAP_SIZE + 1] = toInsert;
 			DEADSPACE_SIZE++;
 			if (heap.length - DEADSPACE_SIZE == 0) {
-//				System.err.println("<---- NEXT RUN!! ---->");
+				// System.err.println("<---- NEXT RUN!! ---->");
 				// HEAPSIZE == 0, dus geen items meer in heap -> maak van
 				// deadspace de nieuwe heap; buildHeap
 				buildHeap();
-				
+
 				printToOutput("<---- NEXT RUN!! ---->");
 			}
 		} else {
@@ -85,7 +85,7 @@ public class RSHeap {
 			heap[HEAP_SIZE] = toInsert;
 			percolateUp(HEAP_SIZE);
 		}
-//		printCurrentHeap();
+		// printCurrentHeap();
 	}
 
 	/**
@@ -208,12 +208,11 @@ public class RSHeap {
 
 	private void fillHeap() {
 		printToOutput("<----   FILLING THINGS UP!   ----->");
-		//		System.err.println("<----   FILLING THINGS UP!   ----->\n");
+		// System.err.println("<----   FILLING THINGS UP!   ----->\n");
 		for (int i = 0; i < heap.length; i++) {
 			heap[i] = random[i];
 			indexRandomArray++;
 		}
-//		indexRandomArray = 0;
 
 	}
 
@@ -236,6 +235,9 @@ public class RSHeap {
 
 	}
 
+	/**
+	 * intended for debugging only!
+	 */
 	private void printCurrentHeap() {
 		int[] tempHeap = new int[HEAP_SIZE];
 		for (int i = 0; i < HEAP_SIZE; i++) {
