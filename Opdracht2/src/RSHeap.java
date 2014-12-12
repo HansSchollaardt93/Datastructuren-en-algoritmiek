@@ -66,9 +66,9 @@ public class RSHeap {
 	 * 
 	 * @return the heap int array
 	 */
-	public int[] getHeap() {
-		return heap;
-	}
+	// public int[] getHeap() {
+	// return heap;
+	// }
 
 	/**
 	 * End of helper methods for testing
@@ -133,6 +133,9 @@ public class RSHeap {
 	}
 
 	/**
+	 * The value on this index you wish to percolate up, that is: compare to
+	 * it's parent, and swap if it's value is bigger than your own value. Repeat
+	 * for the parent method.
 	 * 
 	 * @param index
 	 */
@@ -149,6 +152,9 @@ public class RSHeap {
 	}
 
 	/**
+	 * 
+	 * Index of the item you wish to compare to it's childrens value, if they
+	 * persist. Recursively works its way down until the no more children exist
 	 * 
 	 * @param currentIndex
 	 */
@@ -191,10 +197,13 @@ public class RSHeap {
 	}
 
 	/**
-	 * Swaps two elements in the heap
+	 * Method to swap 2 values, that is: parent and child or vice versa
 	 * 
 	 * @param current
+	 *            The value on this index you wish to swap
 	 * @param toSwapWith
+	 *            The value on this index you wish to swap the current value
+	 *            with
 	 */
 	private void swap(int current, int toSwapWith) {
 		int tempvalue = heap[current];
@@ -230,6 +239,10 @@ public class RSHeap {
 		}
 	}
 
+	/**
+	 * Write the remainder of the heap to output when there's no more input to
+	 * read
+	 */
 	private void writeHeap() {
 		for (int i = 0; i < heapSize; i++) {
 			removeItem();
