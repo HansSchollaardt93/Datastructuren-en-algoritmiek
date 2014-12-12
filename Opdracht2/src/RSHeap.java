@@ -12,6 +12,7 @@ public class RSHeap {
 	private final int RANDOM_NUMBERS;
 	private static final int RANDOMIZE_AROUND = 5000;
 	private int indexRandomArray = 0, output;
+	private int writtenToOutput=0;
 	private int[] random, heap;
 	private PrintWriter out;
 	
@@ -36,11 +37,14 @@ public class RSHeap {
 			indexRandomArray++;
 		}
 		// write remainder of heap to OUT
-		System.err.println("<---- REST OF THE HEAP!! --->");
+		out.println("<---- REST OF THE HEAP!! --->");
+//		System.err.println("<---- REST OF THE HEAP!! --->");
 		writeHeap();
 		buildHeap();
+		out.println("<---- THE REMAINDER!! --->");
+//		System.out.println(toDotString());
 		// write remainder to OUT
-		System.err.println("<---- THE REMAINDER!! --->");
+//		System.err.println("<---- THE REMAINDER!! --->");
 		writeHeap();
 		out.close();
 	}
@@ -50,9 +54,9 @@ public class RSHeap {
 	 * @return
 	 */
 	private void removeItem() {
-		System.out.println(heap[0] + "  Item number  " + (indexRandomArray));
-		printToOutput(heap[0] + "\t  Item number  " + (indexRandomArray));
-
+//		System.out.println(heap[0] + "  Item number  " + (indexRandomArray) + " HEAPSIZE lenght =" + HEAP_SIZE);
+		printToOutput(heap[0] + "  Item number " + (writtenToOutput) + " HEAPSIZE lenght =" + HEAP_SIZE);
+		writtenToOutput++;
 		output = heap[0];
 		heap[0] = heap[HEAP_SIZE];
 		// System.out.println("Perculating down: "+heap[0]);
@@ -69,11 +73,11 @@ public class RSHeap {
 			heap[HEAP_SIZE + 1] = toInsert;
 			DEADSPACE_SIZE++;
 			if (heap.length - DEADSPACE_SIZE == 0) {
-
+//				System.err.println("<---- NEXT RUN!! ---->");
 				// HEAPSIZE == 0, dus geen items meer in heap -> maak van
 				// deadspace de nieuwe heap; buildHeap
 				buildHeap();
-				System.err.println("<---- NEXT RUN!! ---->");
+				
 				printToOutput("<---- NEXT RUN!! ---->");
 			}
 		} else {
@@ -152,7 +156,7 @@ public class RSHeap {
 	 * Method to print a line to the output file
 	 * 
 	 * @param string
-	 *            the line to print
+	 *            the line to print to file
 	 */
 	private void printToOutput(String string) {
 		out.println(string);
@@ -203,13 +207,13 @@ public class RSHeap {
 	}
 
 	private void fillHeap() {
-		System.err.println("<----   FILLING THINGS UP!   ----->\n");
+		printToOutput("<----   FILLING THINGS UP!   ----->");
+		//		System.err.println("<----   FILLING THINGS UP!   ----->\n");
 		for (int i = 0; i < heap.length; i++) {
-			System.out.println("Filling index " + i);
 			heap[i] = random[i];
 			indexRandomArray++;
 		}
-		indexRandomArray = 0;
+//		indexRandomArray = 0;
 
 	}
 

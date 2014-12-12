@@ -28,12 +28,14 @@ public class RSHeap2 {
 			indexRandomArray++;
 		}
 		// write remainder of heap to OUT
-		System.err.println("<---- REST OF THE HEAP!! --->");
+		out.println("<---- REST OF THE HEAP!! --->");
+//		System.err.println("<---- REST OF THE HEAP!! --->");
 		writeHeap();
 		buildHeap();
-		System.out.println(toDotString());
+		out.println("<---- THE REMAINDER!! --->");
+//		System.out.println(toDotString());
 		// write remainder to OUT
-		System.err.println("<---- THE REMAINDER!! --->");
+//		System.err.println("<---- THE REMAINDER!! --->");
 		writeHeap();
 		out.close();
 		
@@ -51,8 +53,8 @@ public class RSHeap2 {
 	 * @return
 	 */
 	private int removeItem() {
-		System.out.println(heap[0] + "  Item number  "
-				+ (indexRandomArray+1));
+//		System.out.println(heap[0] + "  Item number  "
+//				+ (indexRandomArray+1));
 		printToOutput(heap[0] + "\t  Item number  "
 				+ (indexRandomArray+1));
 		output = heap[0];
@@ -71,7 +73,7 @@ public class RSHeap2 {
 			heap[HEAP_SIZE + 1] = toInsert;
 			DEADSPACE_SIZE++;
 			if (heap.length - DEADSPACE_SIZE == 0) {
-				System.err.println("<---- NEXT RUN!! ---->");
+//				System.err.println("<---- NEXT RUN!! ---->");
 				out.println("<---- NEXT RUN!! ---->");
 				buildHeap();
 			}

@@ -2,18 +2,20 @@ public class APL {
 
 	public static void main(String[] args) {
 
-		executeMeting(10, 5000);
+		executeMeting(10, 50, 5000);
 	}
 
 	/**
 	 * Method to perform a measurement of the RSHeap.
 	 * 
-	 * @param count
+	 * @param times
 	 *            the amount of times it has to run.
+	 * @param heapsize
+	 *            the size of the heap
 	 * @param elements
 	 *            the size of the amount of elements
 	 */
-	private static void executeMeting(int times, int elements) {
+	private static void executeMeting(int times, int heapsize, int elements) {
 		long[] measurements = new long[times];
 
 		for (int i = 0; i < times; i++) {
@@ -21,7 +23,7 @@ public class APL {
 			System.out.println("Start measurement: " + i + " with size: "
 					+ elements);
 			long start = System.currentTimeMillis();
-			new RSHeap(50, elements);
+			new RSHeap(heapsize, elements);
 			measurements[i] = (System.currentTimeMillis() - start);
 			System.out.println("Measurement took: " + measurements[i] + " ms.");
 		}
