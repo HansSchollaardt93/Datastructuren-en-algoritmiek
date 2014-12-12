@@ -8,7 +8,7 @@ import java.util.Arrays;
  */
 public class RSHeap {
 	private int HEAP_SIZE;
-	private static int RANDOM_NUMBERS = 500;
+	private int RANDOM_NUMBERS = 500;
 	private static final int RANDOMIZE_AROUND = 5000;
 	private int indexRandomArray = 0, output;
 	private int[] random, heap;
@@ -82,6 +82,7 @@ public class RSHeap {
 			heap[HEAP_SIZE] = toInsert;
 			percolateUp(HEAP_SIZE);
 		}
+//		printCurrentHeap();
 	}
 
 	/**
@@ -149,16 +150,6 @@ public class RSHeap {
 	}
 
 	/**
-	 * Method to print the remainder of arrays to output file
-	 * 
-	 */
-	private void printToOutput(int startindex, int endindex) {
-		for (int i = startindex; i < endindex; i++) {
-			out.println(heap[i]);
-		}
-	}
-
-	/**
 	 * Method to print a line to the output file
 	 * 
 	 * @param string
@@ -200,15 +191,10 @@ public class RSHeap {
 		// reset the heap values
 		DEADSPACE_SIZE = 0;
 		HEAP_SIZE = heap.length - 1;
-		int start = ((heap.length - 1) / 2);
-		while (start >= 0) {
-			percolateDown(start);
-			start--;
-		}
-		// for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
-		// perculateDown(i);
-		// }
 
+		for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
+			percolateDown(i);
+		}
 	}
 
 	private void writeHeap() {
@@ -219,16 +205,13 @@ public class RSHeap {
 
 	private void fillHeap() {
 		System.err.println("<----   FILLING THINGS UP!   ----->\n");
-		while (indexRandomArray < heap.length) {
-			heap[indexRandomArray] = random[indexRandomArray];
+		for (int i = 0; i < heap.length; i++) {
+			System.out.println("Filling index " + i);
+			heap[i] = random[i];
 			indexRandomArray++;
 		}
 		indexRandomArray = 0;
-		// for (int i = 0; i < heap.length; i++) {
-		// System.out.println("Filling index " + i);
-		// heap[i] = random[i];
-		// indexRandomArray++;
-		// }
+
 	}
 
 	/**
