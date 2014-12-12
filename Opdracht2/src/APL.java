@@ -9,14 +9,14 @@ public class APL {
 	public static void main(String[] args) throws IOException {
 		// executeMeasurement(10, 50, "inputfile.txt");
 
-		executeMeasurement(5, 100000, "10000000.txt");
-		executeMeasurement(5, 50000, "10000000.txt");
-		executeMeasurement(10, 100000, "inputfile.txt");
-		executeMeasurement(10, 500000, "inputfile.txt");
-		executeMeasurement(10, 25000, "100000.txt");
-		executeMeasurement(10, 2500, "100000.txt");
-		executeMeasurement(10, 2500, "50000.txt");
-		executeMeasurement(10, 50000, "50000.txt");
+		// executeMeasurement(5, 100000, "10000000.txt");
+		// executeMeasurement(5, 50000, "10000000.txt");
+		// executeMeasurement(10, 100000, "inputfile.txt");
+		// executeMeasurement(10, 500000, "inputfile.txt");
+		// executeMeasurement(10, 25000, "100000.txt");
+		// executeMeasurement(10, 2500, "100000.txt");
+		// executeMeasurement(10, 2500, "50000.txt");
+		executeMeasurement(10, 5000, "50000.txt");
 	}
 
 	/**
