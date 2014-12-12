@@ -1,8 +1,15 @@
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+
 public class APL {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
-		executeMeting(10, 50, 5000);
+		// new RSHeap(10, new File("inputfile.txt"));
+
+		executeMeting(10, 10);
 	}
 
 	/**
@@ -12,10 +19,14 @@ public class APL {
 	 *            the amount of times it has to run.
 	 * @param heapsize
 	 *            the size of the heap
-	 * @param elements
-	 *            the size of the amount of elements
+	 * @throws IOException
+	 *             thrown if the file does not exist or is not accessible.
 	 */
-	private static void executeMeting(int times, int heapsize, int elements) {
+	private static void executeMeting(int times, int heapsize)
+			throws IOException {
+		File file = new File("inputfile.txt");
+		int elements = getAmountOfLinesInFile(file);
+
 		long[] measurements = new long[times];
 
 		for (int i = 0; i < times; i++) {
@@ -23,7 +34,7 @@ public class APL {
 			System.out.println("Start measurement: " + i + " with size: "
 					+ elements);
 			long start = System.currentTimeMillis();
-			new RSHeap(heapsize, elements);
+			new RSHeap(heapsize, file);
 			measurements[i] = (System.currentTimeMillis() - start);
 			System.out.println("Measurement took: " + measurements[i] + " ms.");
 		}
@@ -32,6 +43,22 @@ public class APL {
 				.println("Average of " + times + " times in MS: "
 						+ getAverageTime(measurements) + " and N Elements: "
 						+ elements);
+	}
+
+	/**
+	 * Method to get amount of lines in file.
+	 * 
+	 * @param inputFile
+	 *            the input file which to read the lines from
+	 * @return amount of lines of the inputFile
+	 * @throws IOException
+	 */
+	private static int getAmountOfLinesInFile(File inputFile)
+			throws IOException {
+		LineNumberReader lnr = new LineNumberReader(new FileReader(inputFile));
+		lnr.skip(Long.MAX_VALUE);
+		lnr.close();
+		return lnr.getLineNumber() + 1;
 	}
 
 	private static long getAverageTime(long[] times) {

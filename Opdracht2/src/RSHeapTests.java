@@ -1,18 +1,16 @@
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.IOException;
 
 import org.junit.Test;
 
 public class RSHeapTests {
 
 	@Test
-	public void testRSHeap() {
-		RSHeap heap = new RSHeap(5, 50);
+	public void testRSHeap() throws IOException {
+		RSHeap heap = new RSHeap(5, new File("inputfile.txt"));
 		assertTrue(heap.getHeap().length == 5);
-		System.out.println(Arrays.toString(heap.getRandom()));
-		assertTrue(heap.getRandom().length == 50);
-		System.out.println(heap.getWrittenToOutput());
-		assertTrue(heap.getWrittenToOutput() == 50);
+		assertTrue(heap.getRuns() == 50);
 	}
 }
