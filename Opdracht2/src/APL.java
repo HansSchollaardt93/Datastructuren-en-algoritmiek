@@ -7,7 +7,16 @@ import java.util.Arrays;
 public class APL {
 
 	public static void main(String[] args) throws IOException {
-		executeMeasurement(10, 50, "inputfile.txt");
+		// executeMeasurement(10, 50, "inputfile.txt");
+
+		executeMeasurement(5, 100000, "10000000.txt");
+		executeMeasurement(5, 50000, "10000000.txt");
+		executeMeasurement(10, 100000, "inputfile.txt");
+		executeMeasurement(10, 500000, "inputfile.txt");
+		executeMeasurement(10, 25000, "100000.txt");
+		executeMeasurement(10, 2500, "100000.txt");
+		executeMeasurement(10, 2500, "50000.txt");
+		executeMeasurement(10, 50000, "50000.txt");
 	}
 
 	/**
@@ -31,21 +40,14 @@ public class APL {
 		int[] runs = new int[times];
 		System.out.println("HEAPSIZE: " + heapsize + "\nELEMENTS: " + elements);
 		for (int i = 0; i < times; i++) {
-			// System.out.println("Iteration: " + (i + 1));
-			// System.out.println();
-
 			long start = System.currentTimeMillis();
 			RSHeap heap = new RSHeap(heapsize, file);
 			measurements[i] = (System.currentTimeMillis() - start);
 			runs[i] = heap.getRuns();
-			// System.out.println("RUNS=" + heap.getRuns());
-			// System.out.println();
 		}
 
 		System.out.println("Times: " + formatForExcel(measurements));
 		System.out.println("Runs: " + formatForExcel(runs));
-
-		// System.out.println("tgem=" + getAverageTime(measurements) + "\n");
 	}
 
 	private static String formatForExcel(int[] objects) {
