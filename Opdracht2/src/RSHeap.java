@@ -53,7 +53,6 @@ public class RSHeap {
 	private void removeItem() {
 		System.out.println(heap[0] + "  Item number  " + (indexRandomArray));
 		printToOutput(heap[0] + "\t  Item number  " + (indexRandomArray));
-		
 
 		output = heap[0];
 		heap[0] = heap[HEAP_SIZE];
@@ -83,6 +82,7 @@ public class RSHeap {
 			heap[HEAP_SIZE] = toInsert;
 			percolateUp(HEAP_SIZE);
 		}
+		printCurrentHeap();
 	}
 
 	/**
@@ -150,18 +150,6 @@ public class RSHeap {
 	}
 
 	/**
-	 * Method to print the remainder of arrays to output file
-	 * 
-	 * @param array
-	 *            array to write to file
-	 */
-	private void printToOutput(int startindex, int endindex) {
-		for (int i = startindex; i < endindex; i++) {
-			out.println(heap[i]);
-		}
-	}
-
-	/**
 	 * Method to print single integer to output file
 	 * 
 	 * @param smallest
@@ -202,15 +190,10 @@ public class RSHeap {
 		// reset the heap values
 		DEADSPACE_SIZE = 0;
 		HEAP_SIZE = heap.length - 1;
-		int start = ((heap.length - 1) / 2);
-		while (start >= 0) {
-			percolateDown(start);
-			start--;
-		}
-		// for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
-		// perculateDown(i);
-		// }
 
+		for (int i = ((heap.length - 1) / 2); i >= 0; i--) {
+			percolateDown(i);
+		}
 	}
 
 	private void writeHeap() {
@@ -221,16 +204,13 @@ public class RSHeap {
 
 	private void fillHeap() {
 		System.err.println("<----   FILLING THINGS UP!   ----->\n");
-		while (indexRandomArray < heap.length) {
-			heap[indexRandomArray] = random[indexRandomArray];
+		for (int i = 0; i < heap.length; i++) {
+			System.out.println("Filling index " + i);
+			heap[i] = random[i];
 			indexRandomArray++;
 		}
 		indexRandomArray = 0;
-		// for (int i = 0; i < heap.length; i++) {
-		// System.out.println("Filling index " + i);
-		// heap[i] = random[i];
-		// indexRandomArray++;
-		// }
+
 	}
 
 	/**

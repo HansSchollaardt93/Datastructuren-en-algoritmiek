@@ -87,6 +87,7 @@ public class RSHeap2 {
 	 * @param index
 	 */
 	private void percolateUp(int index) {
+		assert (index >= 0);
 		int parentIndex = (index - 1) / 2;
 		if (index >= 0) {
 			if (heap[parentIndex] > heap[index]) {
@@ -108,10 +109,6 @@ public class RSHeap2 {
 		int left = currentIndex * 2 + 1;
 		int right = currentIndex * 2 + 2;
 
-		/*
-		 * check if children are smaller then your own value AND check if child
-		 * is located within the heap.
-		 */
 		// both right and left children exist
 		if (right <= HEAP_SIZE) {
 			// check if either sides is bigger than yourself; if so, swap with
@@ -127,8 +124,8 @@ public class RSHeap2 {
 					swap(right, currentIndex);
 					percolateDown(right);
 				}
-				// check if parent has left child
 			}
+		// check if parent has left child
 		} else if (left <= HEAP_SIZE) {
 			// only has a left child
 			if (current > heap[left]) {
@@ -138,7 +135,11 @@ public class RSHeap2 {
 		}
 
 	}
-
+/**
+ * 
+ * @param current
+ * @param toSwapWith
+ */
 	private void swap(int current, int toSwapWith) {
 		int temp = heap[current];
 		heap[current] = heap[toSwapWith];
@@ -168,11 +169,9 @@ public class RSHeap2 {
 		// generate random numbers to fill array
 		for (int i = 0; i < random.length; i++) {
 			random[i] = (int) (Math.random() * RANDOMIZE_AROUND);
-			// System.out.println(random[i]);
 		}
 		// Initialize in- and outputs
 		try {
-			// in = new Scanner("inputfile.txt");
 			out = new PrintWriter("outputfile.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
