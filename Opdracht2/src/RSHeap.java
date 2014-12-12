@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
+ * Class which implements the Replacement Selection Algorithm.
  * 
- * @author Hans Schollaardt
+ * @author Hans Schollaardt & Benjamin Faal
  */
 public class RSHeap {
 	private int heapSize, deadSpaceSize, writtenToOutput, output, runs;

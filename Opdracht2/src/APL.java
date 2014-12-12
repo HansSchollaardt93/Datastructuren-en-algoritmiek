@@ -7,7 +7,7 @@ public class APL {
 
 	public static void main(String[] args) throws IOException {
 
-		executeMeting(10, 10);
+		executeMeting(1, 10000);
 	}
 
 	/**
