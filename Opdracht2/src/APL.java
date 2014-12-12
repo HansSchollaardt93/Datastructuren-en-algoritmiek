@@ -21,7 +21,7 @@ public class APL {
 			System.out.println("Start measurement: " + i + " with size: "
 					+ elements);
 			long start = System.currentTimeMillis();
-			new RSHeap(elements, elements);
+			new RSHeap(elements / 50, elements);
 			measurements[i] = (System.currentTimeMillis() - start);
 			System.out.println("Measurement took: " + measurements[i] + " ms.");
 		}
