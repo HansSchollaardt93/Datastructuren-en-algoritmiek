@@ -85,15 +85,9 @@ public class RSHeap {
 		// " HEAPSIZE lenght =" + HEAP_SIZE);
 		printToOutput(heap[0] + "  Item number " + (writtenToOutput)
 				+ " HEAPSIZE lenght =" + HEAP_SIZE);
-
-		if (output >= 0) {
-			assert (heap[0] >= output) : "Heap[0] smaller than last value!";
-		}
-
-		writtenToOutput++;
+		// assert (heap[0] >= output) : "Heap[0] smaller than last value!";
 		output = heap[0];
 		heap[0] = heap[HEAP_SIZE];
-		// System.out.println("Perculating down: "+heap[0]);
 		HEAP_SIZE--;
 		percolateDown(0);
 	}
@@ -248,7 +242,6 @@ public class RSHeap {
 			indexRandomArray++;
 		}
 		// indexRandomArray = 0;
-
 	}
 
 	/**
@@ -270,6 +263,9 @@ public class RSHeap {
 
 	}
 
+	/**
+	 * intended for debugging only!
+	 */
 	private void printCurrentHeap() {
 		int[] tempHeap = new int[HEAP_SIZE];
 		for (int i = 0; i < HEAP_SIZE; i++) {
