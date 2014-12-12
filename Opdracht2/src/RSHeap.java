@@ -8,14 +8,15 @@ import java.util.Arrays;
  */
 public class RSHeap {
 	private int HEAP_SIZE;
-	private static final int RANDOM_NUMBERS = 500;
+	private static int RANDOM_NUMBERS = 500;
 	private static final int RANDOMIZE_AROUND = 5000;
 	private int indexRandomArray = 0, output;
 	private int[] random, heap;
 	private PrintWriter out;
 	private int DEADSPACE_SIZE;
 
-	public RSHeap(int heapsize) {
+	public RSHeap(int heapsize, int elements) {
+		RANDOM_NUMBERS = elements;
 		init();
 		DEADSPACE_SIZE = 0;
 		heap = new int[heapsize];
@@ -43,7 +44,6 @@ public class RSHeap {
 		System.err.println("<---- THE REMAINDER!! --->");
 		writeHeap();
 		out.close();
-
 	}
 
 	/**
@@ -53,7 +53,6 @@ public class RSHeap {
 	private void removeItem() {
 		System.out.println(heap[0] + "  Item number  " + (indexRandomArray));
 		printToOutput(heap[0] + "\t  Item number  " + (indexRandomArray));
-		
 
 		output = heap[0];
 		heap[0] = heap[HEAP_SIZE];
@@ -76,7 +75,7 @@ public class RSHeap {
 				// deadspace de nieuwe heap; buildHeap
 				buildHeap();
 				System.err.println("<---- NEXT RUN!! ---->");
-				out.println("<---- NEXT RUN!! ---->");
+				printToOutput("<---- NEXT RUN!! ---->");
 			}
 		} else {
 			HEAP_SIZE++;
@@ -152,8 +151,6 @@ public class RSHeap {
 	/**
 	 * Method to print the remainder of arrays to output file
 	 * 
-	 * @param array
-	 *            array to write to file
 	 */
 	private void printToOutput(int startindex, int endindex) {
 		for (int i = startindex; i < endindex; i++) {
@@ -162,9 +159,10 @@ public class RSHeap {
 	}
 
 	/**
-	 * Method to print single integer to output file
+	 * Method to print a line to the output file
 	 * 
-	 * @param smallest
+	 * @param string
+	 *            the line to print
 	 */
 	private void printToOutput(String string) {
 		out.println(string);
