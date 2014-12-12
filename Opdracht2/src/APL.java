@@ -7,8 +7,6 @@ public class APL {
 
 	public static void main(String[] args) throws IOException {
 
-		// new RSHeap(10, new File("inputfile.txt"));
-
 		executeMeting(10, 10);
 	}
 

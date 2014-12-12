@@ -24,9 +24,9 @@ public class RSHeap {
 	 * @param inputFile
 	 *            the input file to read
 	 * @throws IOException
-	 *             thrown when file is not found or readable.
+	 *             thrown when file is not found or unreadable.
 	 */
-	public RSHeap(int heapsize, File inputFile) throws IOException {
+	public RSHeap(int heapsize, File inputFile) {
 		this.inputFile = inputFile;
 		init();
 		deadSpaceSize = 0;
@@ -35,9 +35,12 @@ public class RSHeap {
 
 		// 1e heapSize (N) inlezen
 		for (int i = 0; i < heapsize; i++) {
-			int next = scanner.nextInt();
-			heap[i] = next;
+			if (scanner.hasNextInt()) {
+				int next = scanner.nextInt();
+				heap[i] = next;
+			}
 		}
+		runs = 1;
 		buildHeap();
 		startSorting();
 	}
@@ -120,8 +123,9 @@ public class RSHeap {
 	}
 
 	/**
+	 * Method to get the amount of runs.
 	 * 
-	 * @return the amount of runs that where ran.
+	 * @return the amount of runs that was needed to complete the algorithm.
 	 */
 	public int getRuns() {
 		return runs;
