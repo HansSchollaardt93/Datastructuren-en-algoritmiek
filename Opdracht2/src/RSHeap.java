@@ -8,12 +8,13 @@ import java.util.Arrays;
  */
 public class RSHeap {
 	private int HEAP_SIZE;
-	private int RANDOM_NUMBERS = 500;
+	private int DEADSPACE_SIZE;
+	private final int RANDOM_NUMBERS;
 	private static final int RANDOMIZE_AROUND = 5000;
 	private int indexRandomArray = 0, output;
 	private int[] random, heap;
 	private PrintWriter out;
-	private int DEADSPACE_SIZE;
+	
 
 	public RSHeap(int heapsize, int elements) {
 		RANDOM_NUMBERS = elements;
@@ -23,10 +24,8 @@ public class RSHeap {
 		HEAP_SIZE = heapsize - 1;
 		fillHeap();
 		buildHeap();
-		System.err.println(toDotString());
-		toDotString();
+//		System.err.println(toDotString());
 		startSorting();
-
 	}
 
 	private void startSorting() {
