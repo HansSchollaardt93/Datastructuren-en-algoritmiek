@@ -36,7 +36,7 @@ public class RedTrie<T> {
 	 * Deletes the item which matches the argument
 	 * 
 	 * @param s
-	 *            the String to search for
+	 *            the String to delete
 	 */
 	public void delete(String s) {
 	}
