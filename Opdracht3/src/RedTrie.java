@@ -1,12 +1,12 @@
 /**
- * Implements a Trie
+ * Implements a Reduced Trie
  * 
  * @author Benjamin & Hans Schollaardt
  * 
  * @param <T>
  *            the Type of the data to store
  */
-public class Trie<T> {
+public class RedTrie<T> {
 	/**
 	 * Method to insert data with a given key ?
 	 * 
