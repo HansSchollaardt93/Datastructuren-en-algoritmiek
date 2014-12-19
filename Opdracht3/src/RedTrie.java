@@ -8,6 +8,12 @@
  */
 public class RedTrie<T> {
 
+	private Node root;
+
+	public RedTrie() {
+		root = new Node("", T);
+	}
+
 	/**
 	 * Method to insert data with a given key ?
 	 * 
@@ -52,6 +58,10 @@ public class RedTrie<T> {
 	private class Node {
 		private T data;
 		private Node child;
+
+		public Node(String word, T data) {
+			setData(data);
+		}
 
 		/**
 		 * Method to get the 'identifier' of this Node.
