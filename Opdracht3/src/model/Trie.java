@@ -12,10 +12,20 @@ import java.util.ArrayList;
  */
 public class Trie {
 
+	/*
+	 * Trie 
+	 * 	insert methode
+	 * 
+	 * Node met protected methoden
+	 * 	insert methode
+	 */
+	
 	private Trie root;
+	
 	private ArrayList<Trie> childs;
 	private ArrayList<TrieData> triedata;
 	private String name;
+	int depth;
 
 	public Trie() {
 		root = new Trie("root", null);
@@ -88,32 +98,59 @@ public class Trie {
 		assert (data != null) : "Dataobject cannot be null";
 		assert (!s.startsWith(" ")) : "String cannot consist of whitespace";
 		assert (!s.equals("")) : "No empty string allowed!";
-		Trie trie = null;
-		// IF already has Trie with full word
-		trie = hasValue(s);
-		if (trie != null) {
-			System.out.println();
-			// only add data
-			trie.addData(data);
-			// ELSE IF has word with first character of string
-			// insert with substring of word
-		} 
-		trie = hasValue(s.charAt(0)+"");
-		if (trie != null) {
-			trie.insert(s.substring(1, s.length()), data);
-		} 
-		trie = hasNodeWithFirstChar(s.charAt(0)+"");
-		if (trie != null){
-			//Expand result
-			
-			//Retry the insert on former object
-		}
-		// ELSE add whole word as new child + set data
-		else {
-			System.out.println("Child added with string " + s );
+		//Kijk naar childs' waarde
+		
+		//Controleer of eerste letter bestaat in children
+		if(!isChild()){
+		//Haal child op en ga vergelijken
+		
+			//als childstring.equals(s); append data
+		
+			//als childstring NIET gelijk is, splits de trie
+				expandTrie(trie);
+				//Op dezelfde diepte, voer opnieuw de insert uit
+				
+			//Als de gezochte string niet bestaat, voeg een nieuwe child toe aan huidige tree
+				addChild(trie);
+		
+		} else {
 			addChild(new Trie(s, data));
 		}
+		
+//		
+//		Trie trie = null;
+//		// IF already has Trie with full word
+//		trie = hasValue(s);
+//		if (trie != null) {
+//			System.out.println();
+//			// only add data
+//			trie.addData(data);
+//			// ELSE IF has word with first character of string
+//			// insert with substring of word
+//		} 
+//		trie = hasValue(s.charAt(0)+"");
+//		if (trie != null) {
+//			trie.insert(s.substring(1, s.length()), data);
+//		} 
+//		trie = hasNodeWithFirstChar(s.charAt(0)+"");
+//		if (trie != null){
+//			//Expand result
+//			expandTrie(trie);
+//			//Retry the insert on former object
+//			trie.
+//		}
+//		// ELSE add whole word as new child + set data
+//		else {
+//			System.out.println("Child added with string " + s );
+//			addChild(new Trie(s, data));
+//		}
 	}
+
+	private void expandTrie(Trie trie) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	private Trie hasNodeWithFirstChar(String s) {
 		for (Trie child : childs) {
