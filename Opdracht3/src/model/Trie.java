@@ -11,145 +11,19 @@ import java.util.ArrayList;
  *            the Type of the data to store
  */
 public class Trie {
-
-	private Trie root;
-	private ArrayList<Trie> childs;
-	private ArrayList<TrieData> triedata;
-	private String name;
+	static int ID = 0;
+	private Node root;
 
 	public Trie() {
-		root = new Trie("root", null);
-		childs = new ArrayList<>();
-		triedata = new ArrayList<>();
+		root = new Node("", null);
 	}
 
-
-	public Trie(String name, TrieData data) {
-		childs = new ArrayList<>();
-		triedata = new ArrayList<>();
-
-		this.name = name;
-		triedata.add(data);
+	public void insertIntoTree(String name, TrieData data) {
+		root.insert(name, data);
 	}
 
-	public void addData(TrieData data) {
-		triedata.add(data);
-	}
-
-	/**
-	 * Method to add a child to this Trie.
-	 * 
-	 * @return the 'next' of the
-	 */
-	public void addChild(Trie child) {
-		childs.add(child);
-	}
-
-	/**
-	 * Removes the child Trie of this Trie by setting it to null.
-	 * 
-	 * @return whether the child has been removed or not.
-	 */
-	public boolean removeChild(Trie child) {
-		return childs.remove(child);
-	}
-
-	/**
-	 * A Trie is a leave when it has not further children.
-	 * 
-	 * @return whether this Trie is a leave or not.
-	 */
-	public boolean isLeaf() {
-		return childs.size() == 0;
-	}
-
-	public Trie hasValue(String s) {
-		for (Trie child : childs) {
-			if (child.getName().equals(s)) {
-				return child;
-			}
-		}
-		return null;
-	}
-
-	private String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Method to insert data with a given key ?
-	 * 
-	 * @param s
-	 *            the key of the data?
-	 * @param data
-	 *            the 'index' of the String s
-	 */
-	public void insert(String s, TrieData data) {
-		assert (data != null) : "Dataobject cannot be null";
-		assert (!s.startsWith(" ")) : "String cannot consist of whitespace";
-		assert (!s.equals("")) : "No empty string allowed!";
-		Trie trie = null;
-		// IF already has Trie with full word
-		trie = hasValue(s);
-		if (trie != null) {
-			System.out.println();
-			// only add data
-			trie.addData(data);
-			// ELSE IF has word with first character of string
-			// insert with substring of word
-		} 
-		trie = hasValue(s.charAt(0)+"");
-		if (trie != null) {
-			trie.insert(s.substring(1, s.length()), data);
-		} 
-		trie = hasNodeWithFirstChar(s.charAt(0)+"");
-		if (trie != null){
-			//Expand result
-			
-			//Retry the insert on former object
-		}
-		// ELSE add whole word as new child + set data
-		else {
-			System.out.println("Child added with string " + s );
-			addChild(new Trie(s, data));
-		}
-	}
-
-	private Trie hasNodeWithFirstChar(String s) {
-		for (Trie child : childs) {
-			String toCompare = child.getName().charAt(0)+"";
-			if(toCompare.equals(s)){
-				return child;
-			}
-		}
-		return null;
-	}
-
-
-	/**
-	 * Method to search for data given a String s
-	 * 
-	 * @param s
-	 *            the String to search for.
-	 * 
-	 * @return an Array of T containing the elements whether results where found
-	 *         or not.
-	 */
-	public TrieData[] search(String s) {
-		// IF has whole word as Trie-object
-
-		// ELSE has first letter of word as Trie
-
-		return null;
-	}
-
-	/**
-	 * Deletes the item which matches the argument
-	 * 
-	 * @param s
-	 *            the String to delete
-	 */
-	public void delete(String s) {
+	public String printTrie() {
+		return root.toString();
 	}
 
 	/**
@@ -159,25 +33,160 @@ public class Trie {
 	 * @author Benjamin & Hans Schollaardt.
 	 * 
 	 */
+	public class Node {
+		private String name;
+		private ArrayList<Node> childnodes;
+		private ArrayList<TrieData> triedata;
+		private int nodeId;
 
-	// @Override
-	// public String toString() {
-	// String result = "digraph heap {\n";
-	// return result + toDot();
-	// }
-	//
-	// /**
-	// * Create a string in dot format
-	// *
-	// * @return
-	// */
-	// private String toDot() {
-	// String res = "n" + id + " [label=\"" + text + " data" + data + "\"]\n";
-	// for (Trie<D> s : nodes) {
-	// res += s.toDot();
-	// res += "n" + id + "-> n" + s.id + ";\n";
-	// }
-	// return res;
-	// }
+		public Node(String name, TrieData data) {
+			childnodes = new ArrayList<>();
+			triedata = new ArrayList<>();
+			this.name = name;
+			triedata.add(data);
+			this.nodeId = ID++;
+		}
 
+		/**
+		 * Method to add a child to this Trie.
+		 * 
+		 * @return the 'next' of the
+		 */
+		public void addChild(Node child) {
+			childnodes.add(child);
+		}
+
+		/**
+		 * Removes the child Trie of this Trie by setting it to null.
+		 * 
+		 * @return whether the child has been removed or not.
+		 */
+		public boolean removeChild(Node child) {
+			return childnodes.remove(child);
+		}
+
+		/**
+		 * A Trie is a leave when it has not further children.
+		 * 
+		 * @return whether this Trie is a leave or not.
+		 */
+		public boolean isLeaf() {
+			return childnodes.size() == 0;
+		}
+
+		/**
+		 * 
+		 * @param s String to check
+		 * @return	the Node which consists of the first character of the string, or null of none does
+		 */
+		public Node hasValue(String s) {
+			for (Node child : childnodes) {
+				String childCompare = child.getName().charAt(0) + "";
+				String stringCompare = s.charAt(0) + "";
+				if (childCompare.equals(stringCompare)) {
+					return child;
+				}
+			}
+			return null;
+		}
+
+		private String getName() {
+			return this.name;
+		}
+
+		/**
+		 * Method to insert data with a given key ?
+		 * 
+		 * @param s
+		 *            the key of the data?
+		 * @param data
+		 *            the 'index' of the String s
+		 */
+		public void insert(String s, TrieData data) {
+			assert (data != null) : "Dataobject cannot be null";
+			assert (!s.startsWith(" ")) : "String cannot consist of whitespace";
+			assert (!s.equals("")) : "No empty string allowed!";
+			Node child;
+
+			if (!isLeaf()) {
+				// Kijk naar childs' waarde
+				child = hasValue(s);
+				if (child != null) {
+					// als childstring.equals(s); append data
+					if (child.getName().equals(s)) {
+						// Same word
+						child.triedata.add(data);
+					} else {
+						// als childstring NIET gelijk is, splits de trie
+						expandTrie(child);
+						// of this.?
+						child.insert(s, data);
+					}
+				} else {
+					this.addChild(new Node(s, data));
+				}
+				// Leaf, so add whole new Node
+			} else {
+				this.addChild(new Node(s, data));
+			}
+		}
+
+		private void expandTrie(Node node) {
+			String toSplit = node.getName();
+			node.name = toSplit.charAt(0) + "";
+			Node newChild = new Node(toSplit.substring(1, toSplit.length()),
+					null);
+			newChild.triedata = node.triedata;
+			node.triedata = new ArrayList<>();
+			node.addChild(newChild);
+		}
+
+		/**
+		 * Method to search for data given a String s
+		 * 
+		 * @param s
+		 *            the String to search for.
+		 * 
+		 * @return an Array of T containing the elements whether results where
+		 *         found or not.
+		 */
+		public TrieData[] search(String s) {
+			// IF has whole word as Trie-object
+
+			// ELSE has first letter of word as Trie
+
+			return null;
+		}
+
+		/**
+		 * Deletes the item which matches the argument
+		 * 
+		 * @param s
+		 *            the String to delete
+		 */
+		public void delete(String s) {
+		}
+
+		@Override
+		public String toString() {
+			String result = "digraph heap {\n";
+			return result + toDot();
+		}
+
+		/**
+		 * Create a string in dot format
+		 * 
+		 * @return
+		 */
+		private String toDot() {
+			String res = "n" + nodeId + " [label=\"" + name + " data"
+					+ triedata + "\"]\n";
+			for (Node s : childnodes) {
+				res += s.toDot();
+				res += "n" + nodeId + "-> n" + s.nodeId + ";\n";
+			}
+			return res;
+		}
+
+	}
 }
