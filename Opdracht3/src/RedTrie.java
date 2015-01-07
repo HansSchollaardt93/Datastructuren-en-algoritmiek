@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Implements a Reduced Trie
  * 
@@ -57,7 +59,7 @@ public class RedTrie<T> {
 	 */
 	private class Node {
 		private T data;
-		private Node child;
+		private ArrayList<Node> childs;
 
 		public Node(String word, T data) {
 			setData(data);
@@ -80,21 +82,12 @@ public class RedTrie<T> {
 		}
 
 		/**
-		 * Method to get the 'next' Node.
-		 * 
-		 * @return the 'next' Node of this Node.
-		 */
-		public Node getChild() {
-			return child;
-		}
-
-		/**
-		 * Method to set the 'next' Node of this Node.
+		 * Method to add a Node to this Node.
 		 * 
 		 * @return the 'next' of the
 		 */
-		public void setChild(Node child) {
-			this.child = child;
+		public void addChild(Node child) {
+			childs.add(child);
 		}
 
 		/**
@@ -102,14 +95,16 @@ public class RedTrie<T> {
 		 * @return whether this Node has a child Node.
 		 */
 		public boolean hasChild() {
-			return child != null;
+			return childs != null && childs.size() > 0;
 		}
 
 		/**
 		 * Removes the child Node of this Node by setting it to null.
+		 * 
+		 * @return whether the child has been removed or not.
 		 */
-		public void removeChild() {
-			this.child = null;
+		public boolean removeChild(Node child) {
+			return childs.remove(child);
 		}
 
 		/**
@@ -118,7 +113,7 @@ public class RedTrie<T> {
 		 * @return whether this Node is a leave or not.
 		 */
 		public boolean isLeave() {
-			return child == null;
+			return childs == null || childs.size() == 0;
 		}
 
 	}
