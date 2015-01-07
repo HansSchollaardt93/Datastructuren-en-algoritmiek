@@ -24,6 +24,8 @@ public class Trie {
 	}
 
 	public Trie(String name, TrieData data) {
+		childs = new ArrayList<>();
+		triedata = new ArrayList<>();
 		this.name = name;
 		triedata.add(data);
 	}
@@ -95,7 +97,7 @@ public class Trie {
 		} else if (root.getTrieWithValue(s.charAt(0) + "") != null) {
 			trie = root.getTrieWithValue(s.charAt(0) + "");
 			trie.insert(s.substring(1, s.length()), data);
-		}
+		} 
 		// ELSE add whole word as new child + set data
 		else {
 			root.addChild(new Trie(s, data));
@@ -111,7 +113,7 @@ public class Trie {
 	 * @return an Array of T containing the elements whether results where found
 	 *         or not.
 	 */
-	public TrieData[] search(String s) {
+	public ArrayList<TrieData> search(String s) {
 		//IF has whole word as Trie-object
 		
 		//ELSE has first letter of word as Trie
