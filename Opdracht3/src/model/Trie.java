@@ -18,14 +18,16 @@ public class Trie {
 	private String name;
 
 	public Trie() {
-		root = new Trie("", new TrieData(0, 0));
+		root = new Trie("root", null);
 		childs = new ArrayList<>();
 		triedata = new ArrayList<>();
 	}
 
+
 	public Trie(String name, TrieData data) {
 		childs = new ArrayList<>();
 		triedata = new ArrayList<>();
+
 		this.name = name;
 		triedata.add(data);
 	}
@@ -113,10 +115,11 @@ public class Trie {
 	 * @return an Array of T containing the elements whether results where found
 	 *         or not.
 	 */
-	public ArrayList<TrieData> search(String s) {
-		//IF has whole word as Trie-object
-		
-		//ELSE has first letter of word as Trie
+	public TrieData[] search(String s) {
+		// IF has whole word as Trie-object
+
+		// ELSE has first letter of word as Trie
+
 		return null;
 	}
 
@@ -137,24 +140,24 @@ public class Trie {
 	 * 
 	 */
 
-//	@Override
-//	public String toString() {
-//		String result = "digraph heap {\n";
-//		return result + toDot();
-//	}
-//
-//	/**
-//	 * Create a string in dot format
-//	 * 
-//	 * @return
-//	 */
-//	private String toDot() {
-//		String res = "n" + id + " [label=\"" + text + " data" + data + "\"]\n";
-//		for (Trie<D> s : nodes) {
-//			res += s.toDot();
-//			res += "n" + id + "-> n" + s.id + ";\n";
-//		}
-//		return res;
-//	}
+	// @Override
+	// public String toString() {
+	// String result = "digraph heap {\n";
+	// return result + toDot();
+	// }
+	//
+	// /**
+	// * Create a string in dot format
+	// *
+	// * @return
+	// */
+	// private String toDot() {
+	// String res = "n" + id + " [label=\"" + text + " data" + data + "\"]\n";
+	// for (Trie<D> s : nodes) {
+	// res += s.toDot();
+	// res += "n" + id + "-> n" + s.id + ";\n";
+	// }
+	// return res;
+	// }
 
 }
