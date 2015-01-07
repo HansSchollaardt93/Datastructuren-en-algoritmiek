@@ -23,7 +23,7 @@ public class Trie {
 		triedata = new ArrayList<>();
 	}
 
-	public Trie(String name, TrieData data) {
+	private Trie(String name, TrieData data) {
 		this.name = name;
 		triedata.add(data);
 	}
@@ -112,9 +112,9 @@ public class Trie {
 	 *         or not.
 	 */
 	public TrieData[] search(String s) {
-		//IF has whole word as Trie-object
-		
-		//ELSE has first letter of word as Trie
+		// IF has whole word as Trie-object
+
+		// ELSE has first letter of word as Trie
 		return null;
 	}
 
@@ -135,24 +135,24 @@ public class Trie {
 	 * 
 	 */
 
-//	@Override
-//	public String toString() {
-//		String result = "digraph heap {\n";
-//		return result + toDot();
-//	}
-//
-//	/**
-//	 * Create a string in dot format
-//	 * 
-//	 * @return
-//	 */
-//	private String toDot() {
-//		String res = "n" + id + " [label=\"" + text + " data" + data + "\"]\n";
-//		for (Trie<D> s : nodes) {
-//			res += s.toDot();
-//			res += "n" + id + "-> n" + s.id + ";\n";
-//		}
-//		return res;
-//	}
+	// @Override
+	// public String toString() {
+	// String result = "digraph heap {\n";
+	// return result + toDot();
+	// }
+	//
+	// /**
+	// * Create a string in dot format
+	// *
+	// * @return
+	// */
+	// private String toDot() {
+	// String res = "n" + id + " [label=\"" + text + " data" + data + "\"]\n";
+	// for (Trie<D> s : nodes) {
+	// res += s.toDot();
+	// res += "n" + id + "-> n" + s.id + ";\n";
+	// }
+	// return res;
+	// }
 
 }
