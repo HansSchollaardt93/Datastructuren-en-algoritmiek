@@ -18,7 +18,7 @@ public class Trie {
 	private String name;
 
 	public Trie() {
-		root = new Trie("", new TrieData(0, 0));
+		root = new Trie("root", null);
 		childs = new ArrayList<>();
 		triedata = new ArrayList<>();
 	}
