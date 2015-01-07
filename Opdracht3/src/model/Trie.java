@@ -63,7 +63,7 @@ public class Trie {
 		return childs.size() == 0;
 	}
 
-	public Trie getTrieWithValue(String s) {
+	public Trie hasValue(String s) {
 		for (Trie child : childs) {
 			if (child.getName().equals(s)) {
 				return child;
@@ -87,24 +87,44 @@ public class Trie {
 	public void insert(String s, TrieData data) {
 		assert (data != null) : "Dataobject cannot be null";
 		assert (!s.startsWith(" ")) : "String cannot consist of whitespace";
-		assert (s.equals("")) : "No empty string allowed!";
+		assert (!s.equals("")) : "No empty string allowed!";
 		Trie trie = null;
 		// IF already has Trie with full word
-		if (root.getTrieWithValue(s) != null) {
-			trie = root.getTrieWithValue(s);
+		trie = hasValue(s);
+		if (trie != null) {
+			System.out.println();
 			// only add data
 			trie.addData(data);
 			// ELSE IF has word with first character of string
 			// insert with substring of word
-		} else if (root.getTrieWithValue(s.charAt(0) + "") != null) {
-			trie = root.getTrieWithValue(s.charAt(0) + "");
+		} 
+		trie = hasValue(s.charAt(0)+"");
+		if (trie != null) {
 			trie.insert(s.substring(1, s.length()), data);
 		} 
+		trie = hasNodeWithFirstChar(s.charAt(0)+"");
+		if (trie != null){
+			//Expand result
+			
+			//Retry the insert on former object
+		}
 		// ELSE add whole word as new child + set data
 		else {
-			root.addChild(new Trie(s, data));
+			System.out.println("Child added with string " + s );
+			addChild(new Trie(s, data));
 		}
 	}
+
+	private Trie hasNodeWithFirstChar(String s) {
+		for (Trie child : childs) {
+			String toCompare = child.getName().charAt(0)+"";
+			if(toCompare.equals(s)){
+				return child;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * Method to search for data given a String s
