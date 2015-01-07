@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Trie {
 	static int ID = 0;
 	private Node root;
-
+	
 	public Trie() {
 		root = new Node("", null);
 	}
