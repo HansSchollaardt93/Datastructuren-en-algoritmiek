@@ -3,8 +3,8 @@ import java.io.IOException;
 public class APL {
 
 	public static void main(String[] args) throws IOException {
-		RedTrie<Integer> trie = new RedTrie<Integer>();
-		trie.insert("ball", 1);
+		Trie trie = new Trie();
+		trie.insert("ball", new Data(0, 0));
 		trie.insert("bat", 2);
 		trie.insert("doll", 3);
 		trie.insert("dork", 4);

@@ -8,12 +8,12 @@ import java.util.ArrayList;
  * @param <T>
  *            the Type of the data to store
  */
-public class RedTrie<T> {
+public class Trie {
 
 	private Node root;
 
-	public RedTrie() {
-		root = new Node("", T);
+	public Trie() {
+		root = new Node("", new Data(0, 0));
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class RedTrie<T> {
 	 * @param data
 	 *            the 'index' of the String s
 	 */
-	public void insert(String s, T data) {
+	public void insert(String s, Data data) {
 
 	}
 
@@ -37,7 +37,7 @@ public class RedTrie<T> {
 	 * @return an Array of T containing the elements whether results where found
 	 *         or not.
 	 */
-	public T[] search(String s) {
+	public Data[] search(String s) {
 		return null;
 	}
 
@@ -58,31 +58,15 @@ public class RedTrie<T> {
 	 * 
 	 */
 	private class Node {
-		private T data;
 		private ArrayList<Node> childs;
+		private ArrayList<Data> datas;
 
-		public Node(String word, T data) {
-			setData(data);
+		public Node(String word, Data data) {
+			// TODO
 		}
 
 		/**
-		 * Method to get the 'identifier' of this Node.
-		 * 
-		 * @return the 'identifier' of this Node
-		 */
-		public T getData() {
-			return data;
-		}
-
-		/**
-		 * Method to set the 'identifier' of this Node.
-		 */
-		public void setData(T data) {
-			this.data = data;
-		}
-
-		/**
-		 * Method to add a Node to this Node.
+		 * Method to add a child to this Node.
 		 * 
 		 * @return the 'next' of the
 		 */
@@ -116,6 +100,23 @@ public class RedTrie<T> {
 			return childs == null || childs.size() == 0;
 		}
 
+	}
+
+	class Data {
+		private int start, end;
+
+		public Data(int start, int end) {
+			this.start = start;
+			this.end = end;
+		}
+
+		public int getStart() {
+			return start;
+		}
+
+		public int getEnd() {
+			return end;
+		}
 	}
 
 }
