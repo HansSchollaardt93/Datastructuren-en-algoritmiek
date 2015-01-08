@@ -33,7 +33,18 @@ public class Trie {
 	 * @return the TrieData object if found
 	 */
 	public TrieData search(String s) {
-		return root.search(s, 1);
+		return root.search(s, ROOTDEPTH);
+	}
+
+	/**
+	 * Deletes the Node with the specified String, and restores the Trie
+	 * afterwards.
+	 * 
+	 * @param s
+	 *            the String to search for and delete
+	 */
+	public void delete(String s) {
+		root.delete(s, 1);
 	}
 
 	public String printTrie() {
@@ -41,8 +52,7 @@ public class Trie {
 	}
 
 	/**
-	 * Inner-class which will hold the data and the child of a Trie of the
-	 * RedTrie.
+	 * Inner-class which will hold the data and the child of a Trie.
 	 * 
 	 * @author Benjamin & Hans Schollaardt.
 	 * 
@@ -283,13 +293,90 @@ public class Trie {
 			return null;
 		}
 
+		private void delete(Node n) {
+			if (parentnode != null && data == null) {
+				if (size() == 1) {
+					// ik heb één child die verwijdert moet worden
+					childnodes.remove(n);
+					// mijn data is leeg dus verwijder mij ook
+					parentnode.delete(this);
+				} else if (size() == 2) {
+					// ik moet samengevoegd worden
+					childnodes.remove(n);
+					setToNode(childnodes.get(0));
+					// controleer of ik nog verder samengevoegd kan worden
+					parentnode.collapse();
+				}
+			} else if (parentnode != null) {
+				childnodes.remove(n);
+				if (size() == 0) {
+					parentnode.collapse();
+				}
+			}
+		}
+
+		/**
+		 * Helper method to clean this Node when there is 1 child and no Data
+		 * exists.
+		 */
+		private void collapse() {
+			if (size() == 1 && data == null) {
+				// ik kan ingeklapt worden
+				setToNode(childnodes.get(0));
+				// zet mijn waardes naar mijn childs waardes
+				if (parentnode.parentnode != null) {
+					// kan ik nog ingeklapt worden?
+					parentnode.collapse();
+				}
+			}
+		}
+
+		/**
+		 * Helper method which transfers the TrieData and String to the
+		 * specified Node
+		 * 
+		 * @param node
+		 *            the Node to transfer to
+		 */
+		private void setToNode(Node node) {
+			data = node.data;
+			name += node.name;
+			childnodes.remove(node);
+		}
+
 		/**
 		 * Deletes the item which matches the argument
 		 * 
 		 * @param s
 		 *            the String to delete
+		 * @param depth
+		 *            the depth of the Trie
 		 */
-		public void delete(String s) {
+		protected void delete(String s, int depth) {
+			Node temp = searchNode(s, depth);
+			if (temp == null) {
+				// de string die je wilt verwijderen bestaat niet
+				return;
+			} else if (temp.size() > 1) {
+				// heeft meerdere children onder zich dus alleen de data
+				// verwijderen is genoeg
+				temp.data = null;
+			} else if (temp.size() == 0 && temp.parentnode != null) {
+				// er moet nodes verwijdert gaan worden
+				temp.parentnode.delete(temp);
+			} else {
+				// de node die verwijdert gaat worden heeft 1 child
+				temp.data = null;
+				temp.collapse();
+			}
+		}
+
+		/**
+		 * 
+		 * @return the amount of children Nodes.
+		 */
+		private int size() {
+			return childnodes.size();
 		}
 
 		@Override

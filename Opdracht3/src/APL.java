@@ -44,6 +44,14 @@ public class APL {
 
 		System.out.println("this should return null: " + notFound);
 
-		// System.out.println(trie.printTrie());
+		System.out.println("deleting ball");
+
+		trie.delete("ball");
+
+		System.out
+				.println("no ball should be found and result should be null: "
+						+ trie.search("ball"));
+
+		System.out.println(trie.printTrie());
 	}
 }
