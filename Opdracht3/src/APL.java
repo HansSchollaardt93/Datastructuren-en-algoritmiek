@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 import model.Trie;
+import model.TrieData;
 
 public class APL {
 
@@ -31,6 +32,18 @@ public class APL {
 		// trie.insertIntoTree("handdoek", 50);
 		// trie.insertIntoTree("doek", 55);
 
-		System.out.println(trie.printTrie());
+		System.out.println("searching for ball");
+
+		TrieData ball = trie.search("ball");
+
+		System.out.println("found: " + ball.getWord());
+
+		System.out.println("searching for asdfasd fa45sdf");
+
+		TrieData notFound = trie.search("asdfasd fa45sdf");
+
+		System.out.println("this should return null: " + notFound);
+
+		// System.out.println(trie.printTrie());
 	}
 }

@@ -25,6 +25,17 @@ public class Trie {
 		root.insert(name, lastPosition, ROOTDEPTH);
 	}
 
+	/**
+	 * Search in this Trie for a specific String.
+	 * 
+	 * @param s
+	 *            the String to look for
+	 * @return the TrieData object if found
+	 */
+	public TrieData search(String s) {
+		return root.search(s, 1);
+	}
+
 	public String printTrie() {
 		return root.toString();
 	}
@@ -140,6 +151,56 @@ public class Trie {
 				TrieData data = new TrieData(word, position);
 				childnodes.add(new Node(
 						word.substring(depth - 1, word.length()), data, this));
+			}
+		}
+
+		/**
+		 * Search
+		 * 
+		 * @param s
+		 * @param depth
+		 * @return
+		 */
+		private TrieData search(String s, int depth) {
+			Node temp = searchNode(s, depth);
+			if (temp == null) {
+				return null;
+			}
+			return temp.data;
+		}
+
+		/**
+		 * Helper method to search for a Node.
+		 * 
+		 * @param s
+		 *            the String to search for.
+		 * @param depth
+		 *            the depth in the tree.
+		 * @return the found Node or null if not found.
+		 */
+		private Node searchNode(String s, int depth) {
+			if (data != null && data.getWord().equals(s)) {
+				return this;
+			}
+
+			// itearate over all Nodes to check which Node has the character and
+			// stores it in temp
+			Node temp = null;
+			char letter = s.charAt(depth - 1);
+			for (Node node : childnodes) {
+				if (node.isLetter(letter)) {
+					// the Node is found here
+					temp = node;
+					break;
+				}
+			}
+
+			if (temp != null) {
+				// the Node is found here
+				return temp.searchNode(s, depth + 1);
+			} else {
+				// No Node found, returning null here
+				return null;
 			}
 		}
 
