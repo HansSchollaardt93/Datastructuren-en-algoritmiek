@@ -15,21 +15,20 @@ public class TrieData {
 		this(word);
 		positions.add(position);
 	}
-	
-	public void removePosition(){
-		
+
+	public void removePosition() {
+
 	}
-	
-	public void addPosition(int position){
+
+	public void addPosition(int position) {
 		positions.add(position);
 	}
-	
 
 	public String getWord() {
 		return word;
 	}
-	
-	public ArrayList<Integer> getPositionList(){
+
+	public ArrayList<Integer> getPositionList() {
 		return new ArrayList<Integer>(positions);
 	}
 
@@ -39,8 +38,11 @@ public class TrieData {
 
 	@Override
 	public String toString() {
-		return "Data [word=" + word + ", positions=" + positions + "]";
+		String res = word;
+		for (Integer in : positions) {
+			res += " " + in;
+		}
+		return res;
 	}
-	
 
 }

@@ -14,17 +14,15 @@ public class Trie {
 	static int ID = 0;
 	private final static int ROOTDEPTH = 1;
 	private Node root;
-	private int lastPosition = 0;
-	
+	private int lastPosition = -1;
+
 	public Trie() {
 		root = new Node("", null, root);
 	}
-	
 
-	
 	public void insertIntoTree(String name, int wordPosition) {
 		lastPosition++;
-		root.insert(name, wordPosition, ROOTDEPTH);
+		root.insert(name, lastPosition, ROOTDEPTH);
 	}
 
 	public String printTrie() {
@@ -47,6 +45,7 @@ public class Trie {
 
 		/**
 		 * Constructor voor initialisatie van de root-node van de trie
+		 * 
 		 * @param parentnode
 		 */
 		public Node(Node parentnode) {
@@ -54,9 +53,10 @@ public class Trie {
 			this.nodeId = ID++;
 			this.parentnode = parentnode;
 		}
-		
+
 		/**
 		 * Constructor voor een woord dat in de trie opgeslagen moet worden
+		 * 
 		 * @param name
 		 * @param data
 		 * @param parentnode
@@ -66,7 +66,7 @@ public class Trie {
 			this.data = data;
 			this.name = name;
 		}
-		
+
 		/**
 		 * Method to insert data with a given key ?
 		 * 
@@ -78,57 +78,68 @@ public class Trie {
 		public void insert(String word, int position, int depth) {
 			assert (!word.startsWith(" ")) : "String cannot consist of whitespace";
 			assert (!word.equals("")) : "No empty string allowed!";
-			
-			//base case
-			if((data != null && data.getWord().equals(word)) || word.length() == depth - 1){
-				if(data == null){
+
+			// base case
+			if ((data != null && data.getWord().equals(word))
+					|| word.length() == depth - 1) {
+				if (data == null) {
 					data = new TrieData(word, position);
 					return;
 				} else {
-					if(data.getWord().length() > word.length()){
+					if (data.getWord().length() > word.length()) {
 						expandTrie();
 						data = new TrieData(word, position);
 						return;
 					} else {
-						//I am this word
+						// I am this word
 						data.addPosition(position);
 						return;
 					}
 				}
-				
+
 			}
-			//Childnodes doorzoeken
+			// Childnodes doorzoeken
 			Node tempNode = null;
 			char letter = word.charAt(depth - 1);
 			for (Node node : childnodes) {
-				if(node.isLetter(letter)){
+				if (node.isLetter(letter)) {
 					// de node is gevonden
 					tempNode = node;
 					break;
 				}
 			}
-			
-			//Childnode which has no direct children. Also not the rootnode
-			if(isLeaf() && depth > 1){
-				if(data != null && word.substring(0, depth - 1).equals(data.getWord())){
-				
-				}else if(data != null && word.charAt(depth - 1) == data.getWord().charAt(depth - 1)){
-					//The start of the word to be added is equal to the nodes first character
-					if(name.length() > 1){
-						Node node = expandTrie();
+
+			// Childnode which has no direct children. Also not the rootnode
+			if (isLeaf() && depth > 1) {
+				if (data != null
+						&& word.substring(0, depth - 1).equals(data.getWord())) {
+
+				} else if (data != null
+						&& word.charAt(depth - 1) == data.getWord().charAt(
+								depth - 1)) {
+					// The start of the word to be added is equal to the nodes
+					// first character
+					if (name.length() > 1) {
+						String rest = name.substring(1, name.length());
+						name = name.charAt(0) + "";
+						TrieData d = data;
+						data = null;
+						Node node = new Node(rest, d, this);
 						childnodes.add(node);
+						node.insert(word, position, depth + 1);
 						return;
 					}
 				} else {
 					expandTrie();
 				}
 			}
-			
-			if(tempNode != null){
+
+			if (tempNode != null) {
 				tempNode.insert(word, position, depth + 1);
 			} else {
-				TrieData data = new TrieData(word,position);
-				childnodes.add(new Node(word.substring(depth - 1, word.length()), data, this));
+				TrieData data = new TrieData(word, position);
+				childnodes.add(new Node(
+						word.substring(depth - 1, word.length()), data, this));
 			}
 		}
 
@@ -161,8 +172,10 @@ public class Trie {
 
 		/**
 		 * 
-		 * @param s String to check
-		 * @return	the Node which consists of the first character of the string, or null of none does
+		 * @param s
+		 *            String to check
+		 * @return the Node which consists of the first character of the string,
+		 *         or null of none does
 		 */
 		public Node hasValue(String s) {
 			for (Node child : childnodes) {
@@ -174,26 +187,22 @@ public class Trie {
 			}
 			return null;
 		}
-		
-		private boolean isLetter(char letter){
+
+		private boolean isLetter(char letter) {
 			return getName().charAt(0) == letter;
 		}
-		
 
 		private String getName() {
 			return this.name;
 		}
 
-		
-
-		private Node expandTrie() {
+		private void expandTrie() {
 			String toSplit = name.substring(1, name.length());
 			name = name.charAt(0) + "";
 			TrieData dataToAdd = data;
 			data = null;
 			Node node = new Node(toSplit, dataToAdd, this);
 			childnodes.add(node);
-			return node;
 		}
 
 		/**
@@ -234,11 +243,15 @@ public class Trie {
 		 * @return
 		 */
 		private String toDot() {
-			String res = "n" + nodeId + " [label=\"" + name + " data"
-				 + "\"]\n";
-			for (Node s : childnodes) {
-				res += s.toDot();
-				res += "n" + nodeId + "-> n" + s.nodeId + ";\n";
+			String data = "";
+			if (this.data != null) {
+				data = this.data.toString();
+			}
+			String res = "n" + nodeId + " [label=\"" + name + " data: " + data
+					+ "\"]\n";
+			for (Node d : childnodes) {
+				res += d.toDot();
+				res += "n" + nodeId + "-> n" + d.nodeId + ";\n";
 			}
 			return res;
 		}
