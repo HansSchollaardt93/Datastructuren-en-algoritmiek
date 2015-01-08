@@ -12,14 +12,19 @@ import java.util.ArrayList;
  */
 public class Trie {
 	static int ID = 0;
+	private final static int ROOTDEPTH = 1;
 	private Node root;
+	private int lastPosition = 0;
 	
 	public Trie() {
-		root = new Node("", null);
+		root = new Node("", null, root);
 	}
+	
 
-	public void insertIntoTree(String name, TrieData data) {
-		root.insert(name, data);
+	
+	public void insertIntoTree(String name, int wordPosition) {
+		lastPosition++;
+		root.insert(name, wordPosition, ROOTDEPTH);
 	}
 
 	public String printTrie() {
@@ -36,15 +41,95 @@ public class Trie {
 	public class Node {
 		private String name;
 		private ArrayList<Node> childnodes;
-		private ArrayList<TrieData> triedata;
 		private int nodeId;
+		private Node parentnode;
+		private TrieData data;
 
-		public Node(String name, TrieData data) {
+		/**
+		 * Constructor voor initialisatie van de root-node van de trie
+		 * @param parentnode
+		 */
+		public Node(Node parentnode) {
 			childnodes = new ArrayList<>();
-			triedata = new ArrayList<>();
-			this.name = name;
-			triedata.add(data);
 			this.nodeId = ID++;
+			this.parentnode = parentnode;
+		}
+		
+		/**
+		 * Constructor voor een woord dat in de trie opgeslagen moet worden
+		 * @param name
+		 * @param data
+		 * @param parentnode
+		 */
+		public Node(String name, TrieData data, Node parentnode) {
+			this(parentnode);
+			this.data = data;
+			this.name = name;
+		}
+		
+		/**
+		 * Method to insert data with a given key ?
+		 * 
+		 * @param s
+		 *            the key of the data?
+		 * @param data
+		 *            the 'index' of the String s
+		 */
+		public void insert(String word, int position, int depth) {
+			assert (!word.startsWith(" ")) : "String cannot consist of whitespace";
+			assert (!word.equals("")) : "No empty string allowed!";
+			
+			//base case
+			if((data != null && data.getWord().equals(word)) || word.length() == depth - 1){
+				if(data == null){
+					data = new TrieData(word, position);
+					return;
+				} else {
+					if(data.getWord().length() > word.length()){
+						expandTrie();
+						data = new TrieData(word, position);
+						return;
+					} else {
+						//I am this word
+						data.addPosition(position);
+						return;
+					}
+				}
+				
+			}
+			//Childnodes doorzoeken
+			Node tempNode = null;
+			char letter = word.charAt(depth - 1);
+			for (Node node : childnodes) {
+				if(node.isLetter(letter)){
+					// de node is gevonden
+					tempNode = node;
+					break;
+				}
+			}
+			
+			//Childnode which has no direct children. Also not the rootnode
+			if(isLeaf() && depth > 1){
+				if(data != null && word.substring(0, depth - 1).equals(data.getWord())){
+				
+				}else if(data != null && word.charAt(depth - 1) == data.getWord().charAt(depth - 1)){
+					//The start of the word to be added is equal to the nodes first character
+					if(name.length() > 1){
+						Node node = expandTrie();
+						childnodes.add(node);
+						return;
+					}
+				} else {
+					expandTrie();
+				}
+			}
+			
+			if(tempNode != null){
+				tempNode.insert(word, position, depth + 1);
+			} else {
+				TrieData data = new TrieData(word,position);
+				childnodes.add(new Node(word.substring(depth - 1, word.length()), data, this));
+			}
 		}
 
 		/**
@@ -89,56 +174,26 @@ public class Trie {
 			}
 			return null;
 		}
+		
+		private boolean isLetter(char letter){
+			return getName().charAt(0) == letter;
+		}
+		
 
 		private String getName() {
 			return this.name;
 		}
 
-		/**
-		 * Method to insert data with a given key ?
-		 * 
-		 * @param s
-		 *            the key of the data?
-		 * @param data
-		 *            the 'index' of the String s
-		 */
-		public void insert(String s, TrieData data) {
-			assert (data != null) : "Dataobject cannot be null";
-			assert (!s.startsWith(" ")) : "String cannot consist of whitespace";
-			assert (!s.equals("")) : "No empty string allowed!";
-			Node child;
+		
 
-			if (!isLeaf()) {
-				// Kijk naar childs' waarde
-				child = hasValue(s);
-				if (child != null) {
-					// als childstring.equals(s); append data
-					if (child.getName().equals(s)) {
-						// Same word
-						child.triedata.add(data);
-					} else {
-						// als childstring NIET gelijk is, splits de trie
-						expandTrie(child);
-						// of this.?
-						child.insert(s, data);
-					}
-				} else {
-					this.addChild(new Node(s, data));
-				}
-				// Leaf, so add whole new Node
-			} else {
-				this.addChild(new Node(s, data));
-			}
-		}
-
-		private void expandTrie(Node node) {
-			String toSplit = node.getName();
-			node.name = toSplit.charAt(0) + "";
-			Node newChild = new Node(toSplit.substring(1, toSplit.length()),
-					null);
-			newChild.triedata = node.triedata;
-			node.triedata = new ArrayList<>();
-			node.addChild(newChild);
+		private Node expandTrie() {
+			String toSplit = name.substring(1, name.length());
+			name = name.charAt(0) + "";
+			TrieData dataToAdd = data;
+			data = null;
+			Node node = new Node(toSplit, dataToAdd, this);
+			childnodes.add(node);
+			return node;
 		}
 
 		/**
@@ -180,7 +235,7 @@ public class Trie {
 		 */
 		private String toDot() {
 			String res = "n" + nodeId + " [label=\"" + name + " data"
-					+ triedata + "\"]\n";
+				 + "\"]\n";
 			for (Node s : childnodes) {
 				res += s.toDot();
 				res += "n" + nodeId + "-> n" + s.nodeId + ";\n";

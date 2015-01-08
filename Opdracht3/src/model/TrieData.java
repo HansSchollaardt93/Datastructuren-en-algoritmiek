@@ -1,23 +1,46 @@
 package model;
 
+import java.util.ArrayList;
+
 public class TrieData {
-	private int start, end;
+	private String word;
+	private ArrayList<Integer> positions;
 
-	public TrieData(int start, int end) {
-		this.start = start;
-		this.end = end;
+	public TrieData(String word) {
+		this.word = word;
+		positions = new ArrayList<Integer>();
 	}
 
-	public int getStart() {
-		return start;
-	}
-
-	public int getEnd() {
-		return end;
+	public TrieData(String word, int position) {
+		this(word);
+		positions.add(position);
 	}
 	
+	public void removePosition(){
+		
+	}
+	
+	public void addPosition(int position){
+		positions.add(position);
+	}
+	
+
+	public String getWord() {
+		return word;
+	}
+	
+	public ArrayList<Integer> getPositionList(){
+		return new ArrayList<Integer>(positions);
+	}
+
+	public void setWord(String word) {
+		this.word = word;
+	}
+
 	@Override
 	public String toString() {
-		return "["+start+","+end+"]";
+		return "Data [word=" + word + ", positions=" + positions + "]";
 	}
+	
+
 }
