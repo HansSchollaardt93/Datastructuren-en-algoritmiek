@@ -128,7 +128,7 @@ public class Node<T> {
 	 * @param word
 	 *            the String to search for and delete
 	 */
-	public void delete(String s) {
+	public void delete(String word) {
 		// Searching for the to be deleted character
 		if (children.size() > 0) {
 			for (int i = 0; i < children.size(); i++) {
