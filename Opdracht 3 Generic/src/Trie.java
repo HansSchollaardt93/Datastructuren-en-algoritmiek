@@ -23,7 +23,7 @@ public class Trie<T> {
 	 */
 	public void insert(String word, T data) {
 		assert word != null : "Word cannot be null";
-		assert word != "" : "Word is empty";
+		assert !word.equals("") : "Word cannot be empty";
 		assert data != null : "Data object cannot be null";
 
 		assert root != null;
@@ -42,7 +42,7 @@ public class Trie<T> {
 	 */
 	public T search(String word) {
 		assert word != null : "Word cannot be null";
-		assert word != "" : "Word cannot be empty";
+		assert !word.equals("") : "Word cannot be empty";
 
 		Node<T> lastNode = root;
 
@@ -72,7 +72,7 @@ public class Trie<T> {
 	 */
 	public void delete(String word) {
 		assert word != null : "Word cannot be null";
-		assert word != "" : "Word cannot be empty";
+		assert !word.equals("") : "Word cannot be empty";
 
 		Node<T> lastNode = root;
 
