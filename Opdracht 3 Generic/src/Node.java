@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Node<T> {
 
 	private Node<T> parent; // The Parent node
-	private ArrayList<Node<T>> children; // His child nodes
+	private ArrayList<Node<T>> children; // The child nodes
 	private boolean isLeaf; // Is it a leaf
 	private boolean isWord; // Is it a word
 	private String firstLetter; // The first character
