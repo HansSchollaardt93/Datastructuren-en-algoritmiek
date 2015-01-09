@@ -162,7 +162,6 @@ public class Trie<T extends TrieData> {
 						return;
 					}
 				}
-
 			}
 			// Iterating over all child Nodes
 			Node tempNode = null;
@@ -189,7 +188,6 @@ public class Trie<T extends TrieData> {
 						String rest = name.substring(1, name.length());
 						name = name.charAt(0) + "";
 						TrieData d = data;
-						System.out.println("class; " + d.getClass().getName());
 						data = null;
 						Node node = new Node(rest, d, this);
 						childNodes.add(node);
