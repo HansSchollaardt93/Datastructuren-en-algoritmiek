@@ -54,7 +54,7 @@ public class Trie<T> {
 			}
 
 			String remaingstr = word.substring(i + 1);
-			if (lastNode.getCharacters().equals(remaingstr)) {
+			if (lastNode.getRemainder().equals(remaingstr)) {
 				break;
 			}
 		}
@@ -85,7 +85,7 @@ public class Trie<T> {
 			}
 
 			String remaingstr = word.substring(i + 1);
-			if (lastNode.getCharacters().equals(remaingstr)) {
+			if (lastNode.getRemainder().equals(remaingstr)) {
 				break;
 			}
 		}

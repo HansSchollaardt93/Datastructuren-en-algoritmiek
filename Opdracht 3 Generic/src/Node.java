@@ -2,12 +2,11 @@ import java.util.ArrayList;
 
 /**
  * This class keeps track of all children with extra variables like characters
- * and if its a complete word
+ * and if its a complete word.
  * 
- * @author Hans & Benjamin
  * @param <T>
- *            Data Structure
- * 
+ *            The type of the custom Data objects
+ * @author Hans & Benjamin
  */
 public class Node<T> {
 
@@ -248,7 +247,7 @@ public class Node<T> {
 	 * 
 	 * @return the remaining characters
 	 */
-	public String getCharacters() {
+	public String getRemainder() {
 		return remainder;
 	}
 
