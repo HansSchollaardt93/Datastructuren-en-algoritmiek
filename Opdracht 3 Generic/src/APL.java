@@ -7,7 +7,7 @@ import java.util.Scanner;
  * 
  * @author Hans & Benjamin
  */
-public class Apl {
+public class APL {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		Trie<Data> trie = new Trie<Data>();
