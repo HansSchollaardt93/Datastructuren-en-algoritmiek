@@ -26,6 +26,8 @@ public class Trie<T> {
 		assert word != "" : "Word is empty";
 		assert data != null : "Data object cannot be null";
 
+		assert root != null;
+
 		root.insert(word.toLowerCase(), data);
 
 		assert search(word) != null : "Failed to add word: " + word;
@@ -90,6 +92,15 @@ public class Trie<T> {
 			}
 		}
 		lastNode.delete(word.substring(i));
+	}
+
+	/**
+	 * Method to get the amount of elements within this Trie
+	 * 
+	 * @return the size of this Trie
+	 */
+	public int size() {
+		return root.getChildren().size();
 	}
 
 	/**
