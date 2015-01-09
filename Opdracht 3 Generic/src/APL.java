@@ -19,5 +19,6 @@ public class APL {
 			trie.insert(word, data);
 		}
 		scanner.close();
+		System.out.println(trie);
 	}
 }
