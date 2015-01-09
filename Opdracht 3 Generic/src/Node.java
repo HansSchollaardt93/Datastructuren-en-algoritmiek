@@ -134,7 +134,7 @@ public class Node<T> {
 			for (int i = 0; i < children.size(); i++) {
 				Node<T> child = children.get(i);
 				if (child != null
-						&& s.equals((child.firstLetter + child.remainder))) {
+						&& word.equals((child.firstLetter + child.remainder))) {
 					child = null;
 					children.remove(i);
 					isLeaf = children.size() == 0;
@@ -150,7 +150,7 @@ public class Node<T> {
 
 		// If it is not a leaf but within the trie, set isWord to false and
 		// delete the stored data
-		if (s.equals(firstLetter) && !isLeaf) {
+		if (word.equals(firstLetter) && !isLeaf) {
 			isWord = false;
 			data = null;
 		} else {
