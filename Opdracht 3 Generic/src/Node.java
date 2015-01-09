@@ -100,7 +100,6 @@ public class Node<T> {
 				Data nwData = (Data) data;
 				chData.addPosition(nwData.getPosition().get(0));
 			} else {
-
 				// Split the characters in seperate nodes
 				if (child.remainder.length() != 0) {
 					child.insert(child.remainder, child.data);
@@ -109,8 +108,9 @@ public class Node<T> {
 					child.remainder = "";
 				}
 
-				// If it an existing character within the trie
-				// Make it a word and store the data
+				/* If it an existing character within the trie; Mark the
+				 character as a word and store the data at the node. Else,
+				 recursively 'retry' the insertion with the remainder */
 				if (word.length() == 1) {
 					child.isWord = true;
 					child.data = data;
