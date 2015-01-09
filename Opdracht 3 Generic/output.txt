@@ -1,0 +1,234 @@
+digraph heap {
+n0 [label="null ",fillcolor="",style="filled"]
+n1 [label="p ",fillcolor="",style="filled"]
+n89 [label="l ",fillcolor="",style="filled"]
+n92 [label="a ",fillcolor="",style="filled"]
+n93 [label="y positions=[61]",fillcolor="blue",style="filled"]
+n94 [label="ed positions=[1]",fillcolor="blue",style="filled"]
+n93-> n94;
+n95 [label="ing positions=[62]",fillcolor="blue",style="filled"]
+n93-> n95;
+n92-> n93;
+n89-> n92;
+n1-> n89;
+n90 [label="arty positions=[59]",fillcolor="blue",style="filled"]
+n1-> n90;
+n91 [label="eople positions=[60]",fillcolor="blue",style="filled"]
+n1-> n91;
+n0-> n1;
+n2 [label="s ",fillcolor="",style="filled"]
+n3 [label="c ",fillcolor="",style="filled"]
+n99 [label="a ",fillcolor="",style="filled"]
+n100 [label="r ",fillcolor="",style="filled"]
+n101 [label="e ",fillcolor="",style="filled"]
+n102 [label="crow positions=[2]",fillcolor="blue",style="filled"]
+n101-> n102;
+n103 [label="d positions=[65]",fillcolor="blue",style="filled"]
+n101-> n103;
+n100-> n101;
+n99-> n100;
+n3-> n99;
+n2-> n3;
+n4 [label="o positions=[3]",fillcolor="blue",style="filled"]
+n5 [label="me positions=[4]",fillcolor="blue",style="filled"]
+n4-> n5;
+n105 [label="ccer positions=[67]",fillcolor="blue",style="filled"]
+n4-> n105;
+n106 [label="on positions=[68]",fillcolor="blue",style="filled"]
+n4-> n106;
+n2-> n4;
+n6 [label="unday positions=[5]",fillcolor="blue",style="filled"]
+n2-> n6;
+n104 [label="et positions=[66]",fillcolor="blue",style="filled"]
+n2-> n104;
+n107 [label="port positions=[69]",fillcolor="blue",style="filled"]
+n2-> n107;
+n0-> n2;
+n7 [label="t ",fillcolor="",style="filled"]
+n8 [label="eacher positions=[6]",fillcolor="blue",style="filled"]
+n7-> n8;
+n9 [label="ime positions=[7]",fillcolor="blue",style="filled"]
+n7-> n9;
+n108 [label="ake positions=[70]",fillcolor="blue",style="filled"]
+n7-> n108;
+n109 [label="hat positions=[71]",fillcolor="blue",style="filled"]
+n7-> n109;
+n110 [label="ook positions=[72]",fillcolor="blue",style="filled"]
+n7-> n110;
+n111 [label="urn positions=[73]",fillcolor="blue",style="filled"]
+n7-> n111;
+n112 [label="w ",fillcolor="",style="filled"]
+n113 [label="enty positions=[74]",fillcolor="blue",style="filled"]
+n112-> n113;
+n114 [label="o positions=[75]",fillcolor="blue",style="filled"]
+n112-> n114;
+n7-> n112;
+n115 [label="yping positions=[76]",fillcolor="blue",style="filled"]
+n7-> n115;
+n0-> n7;
+n10 [label="u ",fillcolor="",style="filled"]
+n11 [label="ntil positions=[8]",fillcolor="blue",style="filled"]
+n10-> n11;
+n12 [label="pon positions=[9]",fillcolor="blue",style="filled"]
+n10-> n12;
+n0-> n10;
+n13 [label="w ",fillcolor="",style="filled"]
+n120 [label="eekend positions=[10]",fillcolor="blue",style="filled"]
+n13-> n120;
+n121 [label="a ",fillcolor="",style="filled"]
+n122 [label="lk positions=[79]",fillcolor="blue",style="filled"]
+n121-> n122;
+n123 [label="y positions=[80]",fillcolor="blue",style="filled"]
+n121-> n123;
+n13-> n121;
+n124 [label="h ",fillcolor="",style="filled"]
+n125 [label="at positions=[81]",fillcolor="blue",style="filled"]
+n124-> n125;
+n126 [label="y positions=[82]",fillcolor="blue",style="filled"]
+n124-> n126;
+n13-> n124;
+n127 [label="ill positions=[83]",fillcolor="blue",style="filled"]
+n13-> n127;
+n128 [label="orld positions=[84]",fillcolor="blue",style="filled"]
+n13-> n128;
+n0-> n13;
+n14 [label="a ",fillcolor="",style="filled"]
+n15 [label="live positions=[11]",fillcolor="blue",style="filled"]
+n14-> n15;
+n16 [label="n ",fillcolor="",style="filled"]
+n132 [label="gry positions=[12]",fillcolor="blue",style="filled"]
+n16-> n132;
+n133 [label="i ",fillcolor="",style="filled"]
+n134 [label="m ",fillcolor="",style="filled"]
+n135 [label="a ",fillcolor="",style="filled"]
+n136 [label="l positions=[88]",fillcolor="blue",style="filled"]
+n137 [label="s positions=[89]",fillcolor="blue",style="filled"]
+n136-> n137;
+n135-> n136;
+n134-> n135;
+n133-> n134;
+n16-> n133;
+n138 [label="noying positions=[90]",fillcolor="blue",style="filled"]
+n16-> n138;
+n139 [label="y positions=[91]",fillcolor="blue",style="filled"]
+n16-> n139;
+n14-> n16;
+n130 [label="bout positions=[86]",fillcolor="blue",style="filled"]
+n14-> n130;
+n131 [label="fter positions=[87]",fillcolor="blue",style="filled"]
+n14-> n131;
+n140 [label="pple positions=[92]",fillcolor="blue",style="filled"]
+n14-> n140;
+n141 [label="rt positions=[93]",fillcolor="blue",style="filled"]
+n14-> n141;
+n142 [label="s positions=[94]",fillcolor="blue",style="filled"]
+n143 [label="ked positions=[95]",fillcolor="blue",style="filled"]
+n142-> n143;
+n14-> n142;
+n0-> n14;
+n17 [label="b ",fillcolor="",style="filled"]
+n18 [label="a ",fillcolor="",style="filled"]
+n144 [label="ll positions=[13]",fillcolor="blue",style="filled"]
+n18-> n144;
+n145 [label="ck positions=[96]",fillcolor="blue",style="filled"]
+n18-> n145;
+n146 [label="g positions=[97]",fillcolor="blue",style="filled"]
+n18-> n146;
+n147 [label="rked positions=[98]",fillcolor="blue",style="filled"]
+n18-> n147;
+n17-> n18;
+n19 [label="e ",fillcolor="",style="filled"]
+n148 [label="ing positions=[14]",fillcolor="blue",style="filled"]
+n19-> n148;
+n149 [label="came positions=[99]",fillcolor="blue",style="filled"]
+n19-> n149;
+n150 [label="ginning positions=[100]",fillcolor="blue",style="filled"]
+n19-> n150;
+n17-> n19;
+n20 [label="o ",fillcolor="",style="filled"]
+n21 [label="ught positions=[15]",fillcolor="blue",style="filled"]
+n20-> n21;
+n22 [label="y positions=[16]",fillcolor="blue",style="filled"]
+n20-> n22;
+n17-> n20;
+n23 [label="r ",fillcolor="",style="filled"]
+n24 [label="ead positions=[17]",fillcolor="blue",style="filled"]
+n23-> n24;
+n25 [label="o ",fillcolor="",style="filled"]
+n26 [label="t ",fillcolor="",style="filled"]
+n27 [label="h ",fillcolor="",style="filled"]
+n28 [label="e ",fillcolor="",style="filled"]
+n29 [label="r positions=[18]",fillcolor="blue",style="filled"]
+n30 [label="'s positions=[19]",fillcolor="blue",style="filled"]
+n29-> n30;
+n28-> n29;
+n27-> n28;
+n26-> n27;
+n25-> n26;
+n23-> n25;
+n17-> n23;
+n31 [label="uttons positions=[20]",fillcolor="blue",style="filled"]
+n17-> n31;
+n0-> n17;
+n32 [label="c ",fillcolor="",style="filled"]
+n33 [label="a ",fillcolor="",style="filled"]
+n34 [label="lled positions=[21]",fillcolor="blue",style="filled"]
+n33-> n34;
+n35 [label="mel positions=[22]",fillcolor="blue",style="filled"]
+n33-> n35;
+n36 [label="re positions=[23]",fillcolor="blue",style="filled"]
+n33-> n36;
+n32-> n33;
+n0-> n32;
+n37 [label="d ",fillcolor="",style="filled"]
+n38 [label="esert positions=[24]",fillcolor="blue",style="filled"]
+n37-> n38;
+n39 [label="inner positions=[25]",fillcolor="blue",style="filled"]
+n37-> n39;
+n40 [label="ollars positions=[26]",fillcolor="blue",style="filled"]
+n37-> n40;
+n0-> n37;
+n41 [label="e ",fillcolor="",style="filled"]
+n42 [label="at positions=[27]",fillcolor="blue",style="filled"]
+n41-> n42;
+n43 [label="v ",fillcolor="",style="filled"]
+n44 [label="e ",fillcolor="",style="filled"]
+n45 [label="r positions=[28]",fillcolor="blue",style="filled"]
+n46 [label="y positions=[29]",fillcolor="blue",style="filled"]
+n45-> n46;
+n44-> n45;
+n43-> n44;
+n41-> n43;
+n0-> n41;
+n47 [label="f ",fillcolor="",style="filled"]
+n48 [label="ell positions=[30]",fillcolor="blue",style="filled"]
+n47-> n48;
+n49 [label="i ",fillcolor="",style="filled"]
+n50 [label="fty positions=[31]",fillcolor="blue",style="filled"]
+n49-> n50;
+n51 [label="sh positions=[32]",fillcolor="blue",style="filled"]
+n49-> n51;
+n52 [label="ve positions=[33]",fillcolor="blue",style="filled"]
+n49-> n52;
+n47-> n49;
+n53 [label="o ",fillcolor="",style="filled"]
+n54 [label="rever positions=[34]",fillcolor="blue",style="filled"]
+n53-> n54;
+n55 [label="und positions=[35]",fillcolor="blue",style="filled"]
+n53-> n55;
+n47-> n53;
+n56 [label="riend positions=[36]",fillcolor="blue",style="filled"]
+n47-> n56;
+n0-> n47;
+n57 [label="g ",fillcolor="",style="filled"]
+n58 [label="et positions=[37]",fillcolor="blue",style="filled"]
+n57-> n58;
+n59 [label="ingerbread positions=[38]",fillcolor="blue",style="filled"]
+n57-> n59;
+n0-> n57;
+n60 [label="h ",fillcolor="",style="filled"]
+n61 [label="appy positions=[39]",fillcolor="blue",style="filled"]
+n60-> n61;
+n62 [label="im positions=[40]",fillcolor="blue",style="filled"]
+n60-> n62;
+n63 [label="ot positions=[41]",fillcolor="blue"
