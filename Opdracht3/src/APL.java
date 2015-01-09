@@ -1,12 +1,13 @@
 import java.io.File;
 import java.io.IOException;
 
+import model.CustomData;
 import model.Trie;
 
 public class APL {
 
 	public static void main(String[] args) throws IOException {
-		Trie trie = new Trie(new File("document.txt"));
+		Trie<CustomData> trie = new Trie<CustomData>(new File("document.txt"));
 
 		// System.out.println("searching for ball");
 		//

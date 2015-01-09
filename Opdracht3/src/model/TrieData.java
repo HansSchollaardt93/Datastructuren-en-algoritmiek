@@ -2,6 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * TrieData class which holds a word and belonging positions.
+ * 
+ * @author Benjamin & Hans Schollaardt
+ * 
+ */
 public class TrieData {
 	private String word;
 	private ArrayList<Integer> positions;
@@ -12,7 +18,7 @@ public class TrieData {
 		positions.add(position);
 	}
 
-	public void addPosition(int position) {
+	protected void addPosition(int position) {
 		positions.add(position);
 	}
 

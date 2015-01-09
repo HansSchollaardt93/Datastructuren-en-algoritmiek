@@ -11,15 +11,13 @@ import java.util.Scanner;
  * @author Benjamin & Hans Schollaardt
  * 
  */
-public class Trie {
+public class Trie<T extends TrieData> {
 	// for identifying the Nodes so they can be visualized
 	private static int ID = 0;
 	// the default depth of the Trie
 	private final static int DEFAULT_DEPTH = 1;
 	// the root Node of this Trie
 	private Node root;
-	// the last position of the inserted Node
-	private int lastPosition = -1;
 
 	/**
 	 * Constructs a default empty Trie.
@@ -49,9 +47,16 @@ public class Trie {
 		scanner.close();
 	}
 
+	/**
+	 * Method to insert a String into the Trie.
+	 * 
+	 * @param name
+	 *            the word self
+	 * @param wordPosition
+	 *            the position to insert into the Trie
+	 */
 	public void insert(String name, int wordPosition) {
-		lastPosition++;
-		root.insert(name, lastPosition, DEFAULT_DEPTH);
+		root.insert(name, wordPosition, DEFAULT_DEPTH);
 	}
 
 	/**
@@ -73,7 +78,7 @@ public class Trie {
 	 *            the String to search for and delete
 	 */
 	public void delete(String s) {
-		root.delete(s, 1);
+		root.delete(s, DEFAULT_DEPTH);
 	}
 
 	/**
@@ -104,12 +109,12 @@ public class Trie {
 		 * Constructor for initialization of the main Trie with a default empty
 		 * root Node.
 		 * 
-		 * @param parentnode
+		 * @param parentNode
 		 */
-		private Node(Node parentnode) {
-			childNodes = new ArrayList<>();
+		private Node(Node parentNode) {
+			childNodes = new ArrayList<Node>();
 			this.id = ID++;
-			this.parentNode = parentnode;
+			this.parentNode = parentNode;
 		}
 
 		/**
@@ -117,10 +122,11 @@ public class Trie {
 		 * 
 		 * @param name
 		 * @param data
-		 * @param parentnode
+		 * @param parentNode
 		 */
-		private Node(String name, TrieData data, Node parentnode) {
-			this(parentnode);
+		private Node(String name, TrieData data, Node parentNode) {
+			this(parentNode);
+			assert name != null : "Name cannot be null";
 			this.data = data;
 			this.name = name;
 		}
@@ -135,7 +141,7 @@ public class Trie {
 		 * @param depth
 		 *            the 'index' of the String word
 		 */
-		public void insert(String word, int position, int depth) {
+		private void insert(String word, int position, int depth) {
 			assert (!word.startsWith(" ")) : "String cannot consist of whitespace";
 			assert (!word.equals("")) : "No empty string allowed!";
 
@@ -170,7 +176,7 @@ public class Trie {
 			}
 
 			// Childnode which has no direct children. Also not the rootnode
-			if (isLeaf() && depth > 1) {
+			if (isLeaf() && depth > DEFAULT_DEPTH) {
 				if (data != null
 						&& word.substring(0, depth - 1).equals(data.getWord())) {
 
@@ -183,6 +189,7 @@ public class Trie {
 						String rest = name.substring(1, name.length());
 						name = name.charAt(0) + "";
 						TrieData d = data;
+						System.out.println("class; " + d.getClass().getName());
 						data = null;
 						Node node = new Node(rest, d, this);
 						childNodes.add(node);
@@ -407,6 +414,6 @@ public class Trie {
 			}
 			return res;
 		}
-
 	}
+
 }
