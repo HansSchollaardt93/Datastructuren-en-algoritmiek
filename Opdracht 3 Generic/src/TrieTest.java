@@ -27,7 +27,6 @@ public class TrieTest {
 		trie.insert("dorm", new Data(9));
 		trie.insert("doll", new Data(13));
 
-		// Find the words in the trie
 		int pos5 = trie.search("do").getPosition().get(0);
 		int pos9 = trie.search("dorm").getPosition().get(0);
 		int pos13 = trie.search("doll").getPosition().get(0);
