@@ -232,8 +232,7 @@ public class Node<T> {
 			color = "";
 		}
 		String res = "n" + id + " [label=\"" + firstLetter + remainder + " "
-				+ data + "\",fillcolor=\"" + color
-				+ "\",style=\"filled,rounded\"]\n";
+				+ data + "\",fillcolor=\"" + color + "\",style=\"filled\"]\n";
 
 		for (Node<T> d : children) {
 			res += d.toDot();
@@ -262,7 +261,7 @@ public class Node<T> {
 
 	/**
 	 * 
-	 * @return the Data Object of type T
+	 * @return the Data Object with type T
 	 */
 	public T getData() {
 		return data;
