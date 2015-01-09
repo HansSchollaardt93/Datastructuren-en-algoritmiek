@@ -1,28 +1,57 @@
 package model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
- * Implements a Reduced Trie
+ * Implements a Trie
  * 
  * @author Benjamin & Hans Schollaardt
  * 
- * @param <T>
- *            the Type of the data to store
  */
 public class Trie {
-	static int ID = 0;
-	private final static int ROOTDEPTH = 1;
+	// for identifying the Nodes so they can be visualized
+	private static int ID = 0;
+	// the default depth of the Trie
+	private final static int DEFAULT_DEPTH = 1;
+	// the root Node of this Trie
 	private Node root;
+	// the last position of the inserted Node
 	private int lastPosition = -1;
 
+	/**
+	 * Constructs a default empty Trie.
+	 */
 	public Trie() {
 		root = new Node("", null, root);
 	}
 
-	public void insertIntoTree(String name, int wordPosition) {
+	/**
+	 * Constructs a Trie with a File that has to be red. Example contents of
+	 * File:
+	 * 
+	 * ball bat doll dork do dorm send sense ball.<br>
+	 * The words have to be seperated by spaces or new lines.
+	 * 
+	 * @throws FileNotFoundException
+	 *             thrown when the file is not found.
+	 */
+	public Trie(File file) throws FileNotFoundException {
+		this();
+		Scanner scanner = new Scanner(file);
+		int position = 0;
+		while (scanner.hasNext()) {
+			String word = scanner.next();
+			insert(word, position++);
+		}
+		scanner.close();
+	}
+
+	public void insert(String name, int wordPosition) {
 		lastPosition++;
-		root.insert(name, lastPosition, ROOTDEPTH);
+		root.insert(name, lastPosition, DEFAULT_DEPTH);
 	}
 
 	/**
@@ -33,7 +62,7 @@ public class Trie {
 	 * @return the TrieData object if found
 	 */
 	public TrieData search(String s) {
-		return root.search(s, ROOTDEPTH);
+		return root.search(s, DEFAULT_DEPTH);
 	}
 
 	/**
@@ -47,7 +76,14 @@ public class Trie {
 		root.delete(s, 1);
 	}
 
-	public String printTrie() {
+	/**
+	 * Overriden so we can print the whole Trie
+	 * 
+	 * @return the digraph String compatible with:
+	 *         http://graphviz-dev.appspot.com/
+	 */
+	@Override
+	public String toString() {
 		return root.toString();
 	}
 
@@ -57,44 +93,47 @@ public class Trie {
 	 * @author Benjamin & Hans Schollaardt.
 	 * 
 	 */
-	public class Node {
+	private class Node {
 		private String name;
-		private ArrayList<Node> childnodes;
-		private int nodeId;
-		private Node parentnode;
+		private ArrayList<Node> childNodes;
+		private int id;
+		private Node parentNode;
 		private TrieData data;
 
 		/**
-		 * Constructor voor initialisatie van de root-node van de trie
+		 * Constructor for initialization of the main Trie with a default empty
+		 * root Node.
 		 * 
 		 * @param parentnode
 		 */
-		public Node(Node parentnode) {
-			childnodes = new ArrayList<>();
-			this.nodeId = ID++;
-			this.parentnode = parentnode;
+		private Node(Node parentnode) {
+			childNodes = new ArrayList<>();
+			this.id = ID++;
+			this.parentNode = parentnode;
 		}
 
 		/**
-		 * Constructor voor een woord dat in de trie opgeslagen moet worden
+		 * Constructor for a word that has to be saved in the Trie
 		 * 
 		 * @param name
 		 * @param data
 		 * @param parentnode
 		 */
-		public Node(String name, TrieData data, Node parentnode) {
+		private Node(String name, TrieData data, Node parentnode) {
 			this(parentnode);
 			this.data = data;
 			this.name = name;
 		}
 
 		/**
-		 * Method to insert data with a given key ?
+		 * Method to insert a String into the Trie.
 		 * 
-		 * @param s
-		 *            the key of the data?
-		 * @param data
-		 *            the 'index' of the String s
+		 * @param word
+		 *            the word self.
+		 * @param position
+		 *            the position to insert into the Trie.
+		 * @param depth
+		 *            the 'index' of the String word
 		 */
 		public void insert(String word, int position, int depth) {
 			assert (!word.startsWith(" ")) : "String cannot consist of whitespace";
@@ -122,7 +161,7 @@ public class Trie {
 			// Iterating over all child Nodes
 			Node tempNode = null;
 			char letter = word.charAt(depth - 1);
-			for (Node node : childnodes) {
+			for (Node node : childNodes) {
 				if (node.isLetter(letter)) {
 					// The Node is found
 					tempNode = node;
@@ -146,7 +185,7 @@ public class Trie {
 						TrieData d = data;
 						data = null;
 						Node node = new Node(rest, d, this);
-						childnodes.add(node);
+						childNodes.add(node);
 						node.insert(word, position, depth + 1);
 						return;
 					}
@@ -159,17 +198,19 @@ public class Trie {
 				tempNode.insert(word, position, depth + 1);
 			} else {
 				TrieData data = new TrieData(word, position);
-				childnodes.add(new Node(
+				childNodes.add(new Node(
 						word.substring(depth - 1, word.length()), data, this));
 			}
 		}
 
 		/**
-		 * Search
+		 * Search the whole Trie.
 		 * 
 		 * @param s
+		 *            the String to search for.
 		 * @param depth
-		 * @return
+		 *            the depth of the tree to start looking from.
+		 * @return a TrieData object if its found or null if not found.
 		 */
 		private TrieData search(String s, int depth) {
 			Node temp = searchNode(s, depth);
@@ -197,7 +238,7 @@ public class Trie {
 			// stores it in temp
 			Node temp = null;
 			char letter = s.charAt(depth - 1);
-			for (Node node : childnodes) {
+			for (Node node : childNodes) {
 				if (node.isLetter(letter)) {
 					// the Node is found here
 					temp = node;
@@ -215,84 +256,68 @@ public class Trie {
 		}
 
 		/**
-		 * Method to add a child to this Trie.
-		 * 
-		 * @return the 'next' of the
-		 */
-		public void addChild(Node child) {
-			childnodes.add(child);
-		}
-
-		/**
-		 * Removes the child Trie of this Trie by setting it to null.
-		 * 
-		 * @return whether the child has been removed or not.
-		 */
-		public boolean removeChild(Node child) {
-			return childnodes.remove(child);
-		}
-
-		/**
 		 * A Trie is a leave when it has not further children.
 		 * 
 		 * @return whether this Trie is a leave or not.
 		 */
 		public boolean isLeaf() {
-			return childnodes.size() == 0;
+			return childNodes.size() == 0;
 		}
 
 		/**
+		 * Helper method to check if a char is a letter or not.
 		 * 
-		 * @param s
-		 *            String to check
-		 * @return the Node which consists of the first character of the string,
-		 *         or null of none does
+		 * @param letter
+		 *            the char to check for
+		 * @return true or false if its a letter.
 		 */
-		public Node hasValue(String s) {
-			for (Node child : childnodes) {
-				String childCompare = child.getName().charAt(0) + "";
-				String stringCompare = s.charAt(0) + "";
-				if (childCompare.equals(stringCompare)) {
-					return child;
-				}
-			}
-			return null;
-		}
-
 		private boolean isLetter(char letter) {
 			return getName().charAt(0) == letter;
 		}
 
+		/**
+		 * 
+		 * @return the String representation of this Node.
+		 */
 		private String getName() {
-			return this.name;
+			return name;
 		}
 
+		/**
+		 * This method will expand the Trie.
+		 */
 		private void expandTrie() {
 			String toSplit = name.substring(1, name.length());
 			name = name.charAt(0) + "";
 			TrieData dataToAdd = data;
 			data = null;
 			Node node = new Node(toSplit, dataToAdd, this);
-			childnodes.add(node);
+			childNodes.add(node);
 		}
 
+		/**
+		 * Deletes a Node of the children.
+		 * 
+		 * @param n
+		 *            the Node to delete.
+		 */
 		private void delete(Node n) {
-			if (parentnode != null && data == null) {
+			if (parentNode != null && data == null) {
 				if (size() == 1) {
 					// delete 1 child
-					childnodes.remove(n);
+					childNodes.remove(n);
 					// This Node has no data left so we delete it
-					parentnode.delete(this);
+					parentNode.delete(this);
 				} else if (size() == 2) {
 					// it needs to be merged
-					childnodes.remove(n);
-					setToNode(childnodes.get(0));
-					parentnode.collapse();
+					childNodes.remove(n);
+					setToNode(childNodes.get(0));
+					parentNode.collapse();
 				}
-			} else if (parentnode != null) {
-				childnodes.remove(n);
+			} else if (parentNode != null) {
+				childNodes.remove(n);
 				if (size() == 0) {
-					parentnode.collapse();
+					parentNode.collapse();
 				}
 			}
 		}
@@ -303,10 +328,10 @@ public class Trie {
 		 */
 		private void collapse() {
 			if (size() == 1 && data == null) {
-				setToNode(childnodes.get(0));
+				setToNode(childNodes.get(0));
 				// sets this value to the childs values
-				if (parentnode.parentnode != null) {
-					parentnode.collapse();
+				if (parentNode.parentNode != null) {
+					parentNode.collapse();
 				}
 			}
 		}
@@ -321,7 +346,7 @@ public class Trie {
 		private void setToNode(Node node) {
 			data = node.data;
 			name += node.name;
-			childnodes.remove(node);
+			childNodes.remove(node);
 		}
 
 		/**
@@ -340,8 +365,8 @@ public class Trie {
 			} else if (temp.size() > 1) {
 				// There are more nodes so deleting data is enough
 				temp.data = null;
-			} else if (temp.size() == 0 && temp.parentnode != null) {
-				temp.parentnode.delete(temp);
+			} else if (temp.size() == 0 && temp.parentNode != null) {
+				temp.parentNode.delete(temp);
 			} else {
 				temp.data = null;
 				temp.collapse();
@@ -349,11 +374,12 @@ public class Trie {
 		}
 
 		/**
+		 * Method to get the amount of children of this Node.
 		 * 
-		 * @return the amount of children Nodes.
+		 * @return the amount of children Nodes
 		 */
 		private int size() {
-			return childnodes.size();
+			return childNodes.size();
 		}
 
 		@Override
@@ -363,20 +389,21 @@ public class Trie {
 		}
 
 		/**
-		 * Create a string in dot format
+		 * Create a string in dot format for visualization at:
+		 * http://graphviz-dev.appspot.com/
 		 * 
-		 * @return
+		 * @return the String representation for this Node
 		 */
 		private String toDot() {
 			String data = "";
 			if (this.data != null) {
 				data = this.data.toString();
 			}
-			String res = "n" + nodeId + " [label=\"" + name + " data: " + data
+			String res = "n" + id + " [label=\"" + name + " data: " + data
 					+ "\"]\n";
-			for (Node d : childnodes) {
+			for (Node d : childNodes) {
 				res += d.toDot();
-				res += "n" + nodeId + "-> n" + d.nodeId + ";\n";
+				res += "n" + id + "-> n" + d.id + ";\n";
 			}
 			return res;
 		}
