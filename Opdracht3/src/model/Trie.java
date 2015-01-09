@@ -153,6 +153,8 @@ public class Trie<T extends TrieData> {
 					return;
 				} else {
 					if (data.getWord().length() > word.length()) {
+						// childword is longer than word to be added; expand it
+						// and set the data
 						expandTrie();
 						data = new TrieData(word, position);
 						return;
@@ -162,9 +164,10 @@ public class Trie<T extends TrieData> {
 						return;
 					}
 				}
-
 			}
-			// Iterating over all child Nodes
+
+			// Iterating over all child Nodes to find a child which starts with
+			// the character of the word to add
 			Node tempNode = null;
 			char letter = word.charAt(depth - 1);
 			for (Node node : childNodes) {
@@ -179,7 +182,8 @@ public class Trie<T extends TrieData> {
 			if (isLeaf() && depth > DEFAULT_DEPTH) {
 				if (data != null
 						&& word.substring(0, depth - 1).equals(data.getWord())) {
-
+					// Nothing to do here -> start of word equals start of word
+					// in data
 				} else if (data != null
 						&& word.charAt(depth - 1) == data.getWord().charAt(
 								depth - 1)) {
@@ -200,10 +204,13 @@ public class Trie<T extends TrieData> {
 					expandTrie();
 				}
 			}
-
+			// A node is found which contains the start of the word to be
+			// inserted; recursively add the word on that node
 			if (tempNode != null) {
 				tempNode.insert(word, position, depth + 1);
 			} else {
+				// There's no childnode that contains the (part of) the word you
+				// searched for in the children; free to add a new one!
 				TrieData data = new TrieData(word, position);
 				childNodes.add(new Node(
 						word.substring(depth - 1, word.length()), data, this));
@@ -291,7 +298,7 @@ public class Trie<T extends TrieData> {
 		}
 
 		/**
-		 * This method will expand the Trie.
+		 * This method will expand the Trie
 		 */
 		private void expandTrie() {
 			String toSplit = name.substring(1, name.length());
