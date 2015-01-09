@@ -119,12 +119,12 @@ public class Trie {
 				}
 
 			}
-			// Childnodes doorzoeken
+			// Iterating over all child Nodes
 			Node tempNode = null;
 			char letter = word.charAt(depth - 1);
 			for (Node node : childnodes) {
 				if (node.isLetter(letter)) {
-					// de node is gevonden
+					// The Node is found
 					tempNode = node;
 					break;
 				}
@@ -276,35 +276,17 @@ public class Trie {
 			childnodes.add(node);
 		}
 
-		/**
-		 * Method to search for data given a String s
-		 * 
-		 * @param s
-		 *            the String to search for.
-		 * 
-		 * @return an Array of T containing the elements whether results where
-		 *         found or not.
-		 */
-		public TrieData[] search(String s) {
-			// IF has whole word as Trie-object
-
-			// ELSE has first letter of word as Trie
-
-			return null;
-		}
-
 		private void delete(Node n) {
 			if (parentnode != null && data == null) {
 				if (size() == 1) {
-					// ik heb één child die verwijdert moet worden
+					// delete 1 child
 					childnodes.remove(n);
-					// mijn data is leeg dus verwijder mij ook
+					// This Node has no data left so we delete it
 					parentnode.delete(this);
 				} else if (size() == 2) {
-					// ik moet samengevoegd worden
+					// it needs to be merged
 					childnodes.remove(n);
 					setToNode(childnodes.get(0));
-					// controleer of ik nog verder samengevoegd kan worden
 					parentnode.collapse();
 				}
 			} else if (parentnode != null) {
@@ -321,11 +303,9 @@ public class Trie {
 		 */
 		private void collapse() {
 			if (size() == 1 && data == null) {
-				// ik kan ingeklapt worden
 				setToNode(childnodes.get(0));
-				// zet mijn waardes naar mijn childs waardes
+				// sets this value to the childs values
 				if (parentnode.parentnode != null) {
-					// kan ik nog ingeklapt worden?
 					parentnode.collapse();
 				}
 			}
@@ -355,17 +335,14 @@ public class Trie {
 		protected void delete(String s, int depth) {
 			Node temp = searchNode(s, depth);
 			if (temp == null) {
-				// de string die je wilt verwijderen bestaat niet
+				// The Node that needs to be deleted does not exist.
 				return;
 			} else if (temp.size() > 1) {
-				// heeft meerdere children onder zich dus alleen de data
-				// verwijderen is genoeg
+				// There are more nodes so deleting data is enough
 				temp.data = null;
 			} else if (temp.size() == 0 && temp.parentnode != null) {
-				// er moet nodes verwijdert gaan worden
 				temp.parentnode.delete(temp);
 			} else {
-				// de node die verwijdert gaat worden heeft 1 child
 				temp.data = null;
 				temp.collapse();
 			}
