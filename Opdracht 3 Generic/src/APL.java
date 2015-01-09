@@ -11,7 +11,7 @@ public class APL {
 
 	public static void main(String[] args) throws IOException {
 		Trie<Data> trie = new Trie<Data>();
-		Scanner scanner = new Scanner(new File("wordlist.txt"));
+		Scanner scanner = new Scanner(new File("document.txt"));
 		int position = 0;
 		while (scanner.hasNext()) {
 			String word = scanner.next();
