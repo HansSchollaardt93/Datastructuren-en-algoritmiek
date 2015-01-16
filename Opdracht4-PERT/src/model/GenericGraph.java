@@ -9,7 +9,7 @@ public class GenericGraph {
 
 	public GenericGraph(Node node) {
 		this.rootnode = node;
-		this.childNodes = (new HashSet<>());
+		this.childNodes = new HashSet<Node>();
 	}
 
 	public Set<Node> getChildNodes() {
