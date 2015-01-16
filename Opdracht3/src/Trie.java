@@ -23,8 +23,10 @@ public class Trie<T> {
 	 */
 	public void insert(String word, T data) {
 		assert word != null : "Word cannot be null";
-		assert word != "" : "Word is empty";
+		assert !word.equals("") : "Word cannot be empty";
 		assert data != null : "Data object cannot be null";
+
+		assert root != null;
 
 		root.insert(word.toLowerCase(), data);
 
@@ -40,7 +42,7 @@ public class Trie<T> {
 	 */
 	public T search(String word) {
 		assert word != null : "Word cannot be null";
-		assert word != "" : "Word cannot be empty";
+		assert !word.equals("") : "Word cannot be empty";
 
 		Node<T> lastNode = root;
 
@@ -54,7 +56,7 @@ public class Trie<T> {
 			}
 
 			String remaingstr = word.substring(i + 1);
-			if (lastNode.getCharacters().equals(remaingstr)) {
+			if (lastNode.getRemainder().equals(remaingstr)) {
 				break;
 			}
 		}
@@ -70,7 +72,7 @@ public class Trie<T> {
 	 */
 	public void delete(String word) {
 		assert word != null : "Word cannot be null";
-		assert word != "" : "Word cannot be empty";
+		assert !word.equals("") : "Word cannot be empty";
 
 		Node<T> lastNode = root;
 
@@ -85,11 +87,20 @@ public class Trie<T> {
 			}
 
 			String remaingstr = word.substring(i + 1);
-			if (lastNode.getCharacters().equals(remaingstr)) {
+			if (lastNode.getRemainder().equals(remaingstr)) {
 				break;
 			}
 		}
 		lastNode.delete(word.substring(i));
+	}
+
+	/**
+	 * Method to get the amount of elements within this Trie
+	 * 
+	 * @return the size of this Trie
+	 */
+	public int size() {
+		return root.getChildren().size();
 	}
 
 	/**

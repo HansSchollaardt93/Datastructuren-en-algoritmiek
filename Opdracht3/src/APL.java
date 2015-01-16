@@ -1,5 +1,5 @@
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -7,11 +7,10 @@ import java.util.Scanner;
  * 
  * @author Hans & Benjamin
  */
-public class Apl {
+public class APL {
 
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		Trie<Data> trie = new Trie<Data>();
-
 		Scanner scanner = new Scanner(new File("document.txt"));
 		int position = 0;
 		while (scanner.hasNext()) {
@@ -20,7 +19,6 @@ public class Apl {
 			trie.insert(word, data);
 		}
 		scanner.close();
-
 		System.out.println(trie);
 	}
 }

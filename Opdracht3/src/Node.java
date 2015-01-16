@@ -1,67 +1,66 @@
 import java.util.ArrayList;
 
 /**
- * This TrieNode<T> class keeps track of all his children and other variables
- * such as his characters and if its a complete word
+ * This class keeps track of all children with extra variables like characters
+ * and if its a complete word.
  * 
- * @author Idmon & Emre
  * @param <T>
- *            Data Structure
- * 
+ *            The type of the custom Data objects
+ * @author Hans & Benjamin
  */
 public class Node<T> {
 
 	private Node<T> parent; // The Parent node
-	private ArrayList<Node<T>> children; // His child nodes
+	private ArrayList<Node<T>> children; // The child nodes
 	private boolean isLeaf; // Is it a leaf
 	private boolean isWord; // Is it a word
-	private String startCharacter; // The starting character
-	private String characters; // The remaining characters
+	private String firstLetter; // The first character
+	private String remainder; // The remaining characters
 	private T data; // Data object to store extra information
 
-	// Keep track of node numbers (For graph visualizing purposes)
+	// Just for debugging and visualization
 	private static int LAST_ID;
 	private int id;
 
 	/**
-	 * Constructor for the root-node
+	 * Constructor for the root Node
 	 */
 	public Node() {
 		children = new ArrayList<Node<T>>();
 		isLeaf = true;
 		isWord = false;
-		characters = "";
+		remainder = "";
 		id = LAST_ID++;
 	}
 
 	/**
-	 * Constructor for the child-nodes
+	 * Constructor for child Nodes of the Trie
 	 * 
-	 * @param startCharacter
-	 *            - The starting character
-	 * @param characters
-	 *            - The remaining characters
+	 * @param firstLetter
+	 *            the first letter
+	 * @param remainder
+	 *            the remaining characters
 	 * @param data
-	 *            - The extra data-object
+	 *            the extra data object stored in this Node
 	 */
-	public Node(String startCharacter, String characters, T data) {
+	public Node(String firstLetter, String remainder, T data) {
 		this();
-		this.startCharacter = startCharacter;
-		this.characters = characters;
+		this.firstLetter = firstLetter;
+		this.remainder = remainder;
 		this.data = data;
 	}
 
 	/**
-	 * Find a node with the same starting character
+	 * Helper method to look up a Node and return it
 	 * 
-	 * @param c
-	 *            - Starting Character you're looking for
-	 * @return child - The child with this starting character
+	 * @param s
+	 *            the first character that has to match
+	 * @return child The child Node with the starting character
 	 */
 	public Node<T> findNode(String s) {
 		for (Node<T> child : children) {
-			if (s != null && child.startCharacter != null
-					&& s.equals(child.startCharacter)) {
+			if (s != null && child.firstLetter != null
+					&& s.equals(child.firstLetter)) {
 				return child;
 			}
 		}
@@ -69,17 +68,14 @@ public class Node<T> {
 	}
 
 	/**
-	 * Adds a new word to the TrieNode<T>. This method works through recursion
-	 * by adding a new child if the character has not been found in its
-	 * children. Also if there are still characters remaining, they will be all
-	 * stored in the 'characters' variable to reduce the depth of this tree.
+	 * This method will ad a new word to the Node.
 	 * 
 	 * @param word
-	 *            - The word that needs to be added
-	 * @param newData
-	 *            - The data-object that needs to be stored within the word
+	 *            the word that needs to be added
+	 * @param data
+	 *            the data object that belongs to this word
 	 */
-	public void insert(String word, T newData) {
+	public void insert(String word, T data) {
 		isLeaf = false;
 		String s = word.substring(0, 1);
 
@@ -91,55 +87,54 @@ public class Node<T> {
 			child = new Node<T>(s, word.substring(1), null);
 			child.parent = this;
 			child.isWord = true;
-			child.data = newData;
+			child.data = data;
 			children.add(child);
 		} else {
 
-			String childWord = child.startCharacter + child.characters;
+			String childWord = child.firstLetter + child.remainder;
 
 			// If the word already exists, edit the stored Data-object and add
 			// new position
-			if (child.isWord && word.equals(childWord)
-					&& newData instanceof Data) {
+			if (child.isWord && word.equals(childWord) && data instanceof Data) {
 				Data chData = (Data) child.getData();
-				Data nwData = (Data) newData;
+				Data nwData = (Data) data;
 				chData.addPosition(nwData.getPosition().get(0));
 			} else {
-
 				// Split the characters in seperate nodes
-				if (child.characters.length() != 0) {
-					child.insert(child.characters, child.data);
+				if (child.remainder.length() != 0) {
+					child.insert(child.remainder, child.data);
 					child.isWord = false;
 					child.data = null;
-					child.characters = "";
+					child.remainder = "";
 				}
 
-				// If it an existing character within the trie
-				// Make it a word and store the data
+				/* If it an existing character within the trie; Mark the
+				 character as a word and store the data at the node. Else,
+				 recursively 'retry' the insertion with the remainder */
 				if (word.length() == 1) {
 					child.isWord = true;
-					child.data = newData;
+					child.data = data;
 				} else {
-					child.insert(word.substring(1), newData);
+					child.insert(word.substring(1), data);
 				}
 			}
 		}
 	}
 
 	/**
-	 * This method deletes a word from the TrieNode<T> It uses recursion to and
-	 * asks from its parent-node to be deleted After deletion, the trie is
-	 * automatically gonna re-merge itself to reduce the depth
+	 * Deletes the Node with the specified String, and restores the Trie
+	 * afterwards.
+	 * 
+	 * @param word
+	 *            the String to search for and delete
 	 */
-	public void delete(String s) {
-		System.out.println("Traversing in: " + s);
+	public void delete(String word) {
 		// Searching for the to be deleted character
 		if (children.size() > 0) {
 			for (int i = 0; i < children.size(); i++) {
 				Node<T> child = children.get(i);
 				if (child != null
-						&& s.equals((child.startCharacter + child.characters))) {
-					System.out.println("Node '" + s + "' is deleted!");
+						&& word.equals((child.firstLetter + child.remainder))) {
 					child = null;
 					children.remove(i);
 					isLeaf = children.size() == 0;
@@ -149,15 +144,13 @@ public class Node<T> {
 		}
 
 		// If it is a leaf and not root-node, ask parent to delete itself
-		if (startCharacter != null && isLeaf) {
-			parent.delete(startCharacter + characters);
+		if (firstLetter != null && isLeaf) {
+			parent.delete(firstLetter + remainder);
 		}
 
 		// If it is not a leaf but within the trie, set isWord to false and
 		// delete the stored data
-		if (s.equals(startCharacter) && !isLeaf) {
-			System.out
-					.println("Character stays in the tree, but word is being deleted");
+		if (word.equals(firstLetter) && !isLeaf) {
 			isWord = false;
 			data = null;
 		} else {
@@ -196,14 +189,14 @@ public class Node<T> {
 	 * exists.
 	 */
 	public void collapse() {
-		if (parent.startCharacter == null || parent.isWord
+		if (parent.firstLetter == null || parent.isWord
 				|| parent.children.size() != 1) {
 			return;
 		} else {
 			parent.isWord = true;
 			parent.isLeaf = true;
 			parent.data = data;
-			parent.characters += startCharacter + characters;
+			parent.remainder += firstLetter + remainder;
 			parent.children.remove(0);
 
 			parent.collapse();
@@ -234,9 +227,8 @@ public class Node<T> {
 		} else {
 			color = "";
 		}
-		String res = "n" + id + " [label=\"" + startCharacter + characters
-				+ " " + data + "\",fillcolor=\"" + color
-				+ "\",style=\"filled,rounded\"]\n";
+		String res = "n" + id + " [label=\"" + firstLetter + remainder + " "
+				+ data + "\",fillcolor=\"" + color + "\",style=\"filled\"]\n";
 
 		for (Node<T> d : children) {
 			res += d.toDot();
@@ -250,8 +242,8 @@ public class Node<T> {
 	 * 
 	 * @return the remaining characters
 	 */
-	public String getCharacters() {
-		return characters;
+	public String getRemainder() {
+		return remainder;
 	}
 
 	/**
@@ -265,7 +257,7 @@ public class Node<T> {
 
 	/**
 	 * 
-	 * @return the Data Object of type T
+	 * @return the Data Object with type T
 	 */
 	public T getData() {
 		return data;
