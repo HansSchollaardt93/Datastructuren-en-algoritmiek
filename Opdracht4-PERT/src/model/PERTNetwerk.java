@@ -29,6 +29,7 @@ public class PERTNetwerk extends GenericGraph {
 		//Iterate through list of nodes
 		for (Node node : networknodes) {
 			//find node with indegree 0
+			
 			//if more nodes exist, choose one
 				//make sure it is not visited already (<-- no cycles allowed!)
 				

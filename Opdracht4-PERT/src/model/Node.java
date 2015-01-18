@@ -37,7 +37,7 @@ public class Node {
 	}
 
 	public Node addEdge(Node toNode, int weight) {
-		Edge e = new Edge(this, toNode, longestTime);
+		Edge e = new Edge(this, toNode, weight);
 		outEdges.add(e);
 		toNode.inEdges.add(e);
 		return this;
