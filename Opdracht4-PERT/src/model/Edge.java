@@ -9,5 +9,14 @@ public class Edge {
 		this.to = to;
 		this.weight = weight;
 	}
+	
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+	
+	public int getWeight() {
+		return weight;
+	}
+	
 
 }

@@ -15,5 +15,13 @@ public class GenericGraph {
 	public Set<Node> getChildNodes() {
 		return childNodes;
 	}
+	
+	public boolean hasPathTo(){
+		return false;
+	}
+	
+	
+	
+	
 
 }

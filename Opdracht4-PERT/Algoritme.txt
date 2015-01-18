@@ -1,0 +1,18 @@
+1) topologische order
+Ndoes met indegree 0 één voor een nalopen
+A,B,D,G,E,F,C
+
+2) vroegste tijd
+
+max y elem voorgangers van x { vroegste t(y) + weight(y,x) } 
+
+
+- Beginnen bij rootnode, doorlopen volgens topologische ordening
+- voor alle opvolgers (childs?) de vroegste tijd bepalen
+
+
+3) laatste tijd
+
+min y elem oplopers van x { laatste t(y) - weight(y,x) } 
+
+beginnen bij laatste node, doorlopen via omgekeerde topologische order

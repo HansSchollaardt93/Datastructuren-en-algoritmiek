@@ -17,17 +17,23 @@ public class APL {
 
 		PERTNetwerk netwerk = new PERTNetwerk(A);
 
-		Edge AB = new Edge(A, B, 3);
-		Edge AG = new Edge(A, G, 1);
-		Edge AD = new Edge(A, D, 1);
-		Edge BC = new Edge(B, C, 1);
-		Edge BF = new Edge(B, F, 1);
-		Edge DE = new Edge(D, E, 1);
-		Edge GF = new Edge(G, F, 1);
-		Edge EF = new Edge(E, F, 1);
-		Edge FC = new Edge(F, C, 1);
-
-		// netwerk.putNode(A);
+		netwerk.putNode(A);
+		netwerk.putNode(B);
+		netwerk.putNode(C);
+		netwerk.putNode(D);
+		netwerk.putNode(E);
+		netwerk.putNode(F);
+		netwerk.putNode(G);
+		
+		A.addEdge(B, 3);
+		A.addEdge(G, 1);
+		A.addEdge(D, 1);
+		B.addEdge(C, 1);
+		B.addEdge(F, 1);
+		D.addEdge(E, 1);
+		G.addEdge(F, 1);
+		E.addEdge(F, 1);
+		F.addEdge(C, 1);
 
 	}
 }
