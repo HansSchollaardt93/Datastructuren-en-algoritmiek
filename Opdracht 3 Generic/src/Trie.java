@@ -50,7 +50,7 @@ public class Trie<T> {
 		for (int i = 0; i < word.length(); i++) {
 			lastNode = lastNode.findNode(word.substring(i, i + 1));
 
-			// If there hasn't been found one, return 'null'
+			// If there has not been found any, return 'null'
 			if (lastNode == null) {
 				return null;
 			}
