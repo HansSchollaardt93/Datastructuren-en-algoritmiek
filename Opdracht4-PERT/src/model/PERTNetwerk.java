@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class PERTNetwerk extends GenericGraph {
@@ -27,23 +28,42 @@ public class PERTNetwerk extends GenericGraph {
 		assert (topologicalSort != null) : "List cannot be null!";
 		assert (topologicalSort.isEmpty()) : "List is not empty!";
 		// Iterate through list of nodes
-		for (Node node : networknodes) {
-			// find node with indegree 0
-			if (visited.isEmpty()) {
-				visited.add(node);
-			} else if (visited.contains(node)) {
-				return generateTopologicalSort(visited);
+
+		while (networknodes.size() > 0) {
+			Iterator<Node> i = networknodes.iterator();
+			while (i.hasNext()) {
+				Node n = i.next();
+				System.out.println("n: " + n);
+
+				boolean hasedge = false;
+				for (Node node : networknodes) {
+					System.out.println("node: " + node);
+					if (node != n) {
+						System.out.println("node!=n");
+						System.out.println("hasEdge" + hasEdge(node, n));
+						if (hasEdge(node, n)) {
+							hasedge = true;
+							break;
+						}
+					}
+				}
+				if (!hasedge) {
+					topologicalSort.add(n);
+					i.remove();
+				}
 			}
-
-			// if more nodes exist, choose one
-			// make sure it is not visited already (<-- no cycles allowed!)
-
-			// add it to list
-			topologicalSort.add(node);
-			// else if none exist you've reached the end?
 		}
+
 		// return the list of nodes
-		return topologicalSort;
+		return visited;
+	}
+
+	private boolean hasEdge(Node from, Node to) {
+		for (Edge e : to.inEdges) {
+			System.out.println("e: " + e);
+		}
+
+		return false;
 	}
 
 	public void putNode(Node node) {
