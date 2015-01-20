@@ -1,6 +1,7 @@
 package main;
 
-import model.Edge;
+import java.util.ArrayList;
+
 import model.Node;
 import model.PERTNetwerk;
 
@@ -24,7 +25,7 @@ public class APL {
 		netwerk.putNode(E);
 		netwerk.putNode(F);
 		netwerk.putNode(G);
-		
+
 		A.addEdge(B, 3);
 		A.addEdge(G, 1);
 		A.addEdge(D, 1);
@@ -35,7 +36,10 @@ public class APL {
 		E.addEdge(F, 1);
 		F.addEdge(C, 1);
 
-		//Print graph
-		
+		// Print graph
+
+		System.out.println(netwerk
+				.generateTopologicalSort(new ArrayList<Node>()));
+
 	}
 }
