@@ -1,8 +1,9 @@
 package model;
 
+
 public class Edge {
 	private int weight;
-	private Node from, to;
+	Node from, to;
 
 	public Edge(Node from, Node to, int weight) {
 		this.from = from;
@@ -24,6 +25,12 @@ public class Edge {
 
 	public Node getTo() {
 		return to;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Edge e = (Edge) obj;
+		return e.from == from && e.to == to;
 	}
 
 	@Override

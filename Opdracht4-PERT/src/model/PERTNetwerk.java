@@ -23,47 +23,51 @@ public class PERTNetwerk extends GenericGraph {
 
 	}
 
-	public ArrayList<Node> generateTopologicalSort(ArrayList<Node> visited) {
+	public void generateTopologicalSort() {
 		assert (networknodes != null) : "There are no nodes to process!";
 		assert (topologicalSort != null) : "List cannot be null!";
 		assert (topologicalSort.isEmpty()) : "List is not empty!";
+
+		// resets current topo sort
+		topologicalSort.clear();
 		// Iterate through list of nodes
 
-		while (networknodes.size() > 0) {
-			Iterator<Node> i = networknodes.iterator();
-			while (i.hasNext()) {
-				Node n = i.next();
-				System.out.println("n: " + n);
-
-				boolean hasedge = false;
-				for (Node node : networknodes) {
-					System.out.println("node: " + node);
-					if (node != n) {
-						System.out.println("node!=n");
-						System.out.println("hasEdge" + hasEdge(node, n));
-						if (hasEdge(node, n)) {
-							hasedge = true;
-							break;
-						}
-					}
-				}
-				if (!hasedge) {
-					topologicalSort.add(n);
-					i.remove();
-				}
+		// incoming <- Set of all nodes with no incoming edges
+		HashSet<Node> incoming = new HashSet<Node>();
+		for (Node n : networknodes) {
+			if (n.inEdges.size() == 0) {
+				incoming.add(n);
 			}
 		}
 
-		// return the list of nodes
-		return visited;
-	}
+		// while incoming is non-empty do
+		while (!incoming.isEmpty()) {
+			// remove a node n from incoming
+			Node n = incoming.iterator().next();
+			incoming.remove(n);
 
-	private boolean hasEdge(Node from, Node to) {
-		for (Edge e : to.inEdges) {
-			System.out.println("e: " + e);
+			// insert n into topological sort
+			topologicalSort.add(n);
+
+			// for each node m with an edge e from n to m do
+			for (Iterator<Edge> it = n.outEdges.iterator(); it.hasNext();) {
+				// remove edge e from the graph
+				Edge e = it.next();
+
+				Node m = e.to;
+
+				it.remove();// Remove edge from n
+				m.inEdges.remove(e);// Remove edge from m
+				System.out.println("removing " + e + " from m.inEdges");
+
+				// if m has no other incoming edges then insert m into incoming
+				if (m.inEdges.isEmpty()) {
+					incoming.add(m);
+					System.out.println("adding " + m + " to incoming");
+				}
+			}
 		}
-
-		return false;
+		System.out.println("toposort: " + topologicalSort);
 	}
 
 	public void putNode(Node node) {
