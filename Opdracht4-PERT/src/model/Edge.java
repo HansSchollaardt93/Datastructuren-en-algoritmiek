@@ -1,22 +1,28 @@
 package model;
 
-
 public class Edge {
+	// connections where this Edge belongs to
+	private Node from, to;
 	private int weight;
-	Node from, to;
 
-	public Edge(Node from, Node to, int weight) {
+	/**
+	 * Construct a node between to edges
+	 * 
+	 * @param from
+	 *            origin node
+	 * @param to
+	 *            the target node
+	 * @param weight
+	 *            weight of the edge
+	 */
+	protected Edge(Node from, Node to, int weight) {
+		assert from != null : "From was null";
+		assert to != null : "To was null";
+		assert weight >= 0 : "Node weight was to low";
+
 		this.from = from;
 		this.to = to;
 		this.weight = weight;
-	}
-
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
-
-	public int getWeight() {
-		return weight;
 	}
 
 	public Node getFrom() {
@@ -27,15 +33,7 @@ public class Edge {
 		return to;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		Edge e = (Edge) obj;
-		return e.from == from && e.to == to;
+	public int getWeight() {
+		return weight;
 	}
-
-	@Override
-	public String toString() {
-		return "Edge " + from + " -> " + to;
-	}
-
 }

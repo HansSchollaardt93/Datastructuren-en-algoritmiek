@@ -1,85 +1,81 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class PERTNetwerk extends GenericGraph {
-	private Set<Node> networknodes;
-	private ArrayList<Node> topologicalSort;
 
-	public PERTNetwerk(Node node) {
-		super(node);
-		networknodes = new HashSet<Node>();
-		topologicalSort = new ArrayList<>();
-	}
-
-	public void vroegsteTijden() {
-
-	}
-
-	public void laatsteTijden() {
-
-	}
-
-	public void generateTopologicalSort() {
-		assert (networknodes != null) : "There are no nodes to process!";
-		assert (topologicalSort != null) : "List cannot be null!";
-		assert (topologicalSort.isEmpty()) : "List is not empty!";
-
-		// resets current topo sort
-		topologicalSort.clear();
-		// Iterate through list of nodes
-
-		// incoming <- Set of all nodes with no incoming edges
-		HashSet<Node> incoming = new HashSet<Node>();
-		for (Node n : networknodes) {
-			if (n.inEdges.size() == 0) {
-				incoming.add(n);
+	public ArrayList<Node> topologicalSort() {
+		ArrayList<Node> orderd = new ArrayList<Node>();
+		ArrayList<Node> topological = getFirstNodes(orderd, super.getNodes());
+		// restore in edges
+		for (Node node : nodes) {
+			for (Edge edge : node.getEdges()) {
+				edge.getTo().addIncomingEdge(edge);
 			}
 		}
+		getEarliestTimes(orderd);
+		getLatestTimes(orderd);
+		return topological;
+	}
 
-		// while incoming is non-empty do
-		while (!incoming.isEmpty()) {
-			// remove a node n from incoming
-			Node n = incoming.iterator().next();
-			incoming.remove(n);
+	private void getEarliestTimes(ArrayList<Node> orderd) {
+		for (Node node : orderd) {
+			node.calcEarliestTime();
+		}
+	}
 
-			// insert n into topological sort
-			topologicalSort.add(n);
+	private void getLatestTimes(ArrayList<Node> orderd) {
+		for (int i = orderd.size() - 1; i >= 0; i--) {
+			Node node = orderd.get(i);
+			node.calcLastTime();
+		}
+	}
 
-			// for each node m with an edge e from n to m do
-			for (Iterator<Edge> it = n.outEdges.iterator(); it.hasNext();) {
-				// remove edge e from the graph
-				Edge e = it.next();
+	// alle nodes die geen incomming edges hebben
+	// toevoegen aan lijst met georderd lijsten
+	private ArrayList<Node> getFirstNodes(ArrayList<Node> orderd,
+			ArrayList<Node> nodes) {
 
-				Node m = e.to;
+		for (Node node : nodes) {
+			ArrayList<Edge> inEdges = node.getIncomingEdges();
 
-				it.remove();// Remove edge from n
-				m.inEdges.remove(e);// Remove edge from m
-				System.out.println("removing " + e + " from m.inEdges");
-
-				// if m has no other incoming edges then insert m into incoming
-				if (m.inEdges.isEmpty()) {
-					incoming.add(m);
-					System.out.println("adding " + m + " to incoming");
+			nodes.remove(node);
+			// Node had geen edges
+			if (inEdges.size() == 0) {
+				orderd.add(node);
+				for (Edge edge : node.getEdges()) {
+					edge.getTo().removeInEdge(edge);
 				}
+			} else {
+				// node weer achteraan toevoegen zodat hij als laatste bekeken
+				// wordt
+				nodes.add(node);
 			}
+			break;
 		}
-		System.out.println("toposort: " + topologicalSort);
+		if (nodes.size() == 0) {
+			return orderd;
+		}
+		return getFirstNodes(orderd, nodes);
 	}
 
-	public void putNode(Node node) {
-		assert (node != null);
-		assert (!networknodes.contains(node));
-
-		networknodes.add(node);
-	}
-
+	/**
+	 * A String which can be displayed visually on:
+	 * http://graphviz-dev.appspot.com/
+	 */
 	@Override
 	public String toString() {
-		return networknodes.toString();
-	}
+		String result = "";
+		result += "digraph graaf {\n";
+		for (Node node : nodes) {
+			result += node.toDotStringEdges();
+		}
 
+		for (Node node : nodes) {
+			result += node.getName() + " [label=\"" + node.toString()
+					+ "\"];\n";
+		}
+		result += "}";
+		return result;
+	}
 }

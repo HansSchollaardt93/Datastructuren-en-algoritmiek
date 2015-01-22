@@ -1,27 +1,61 @@
 package model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
-public class GenericGraph {
-	private Node rootnode;
-	private Set<Node> childNodes;
+public abstract class GenericGraph {
 
-	public GenericGraph(Node node) {
-		this.rootnode = node;
-		this.childNodes = new HashSet<Node>();
+	protected ArrayList<Node> nodes;
+
+	/**
+	 * Constructs a default weighted directed Graph
+	 */
+	public GenericGraph() {
+		nodes = new ArrayList<Node>();
 	}
 
-	public Set<Node> getChildNodes() {
-		return childNodes;
+	/**
+	 * Adds a Node to this Graph
+	 * 
+	 * @param node
+	 *            the Node to add to this Graph
+	 */
+	public void addNode(Node node) {
+		nodes.add(node);
 	}
-	
-	public boolean hasPathTo(){
-		return false;
+
+	/**
+	 * Connects two Nodes with a given weight
+	 */
+	public void connect(Node from, Node to, int weight) {
+		assert from != null : "Edge from was null";
+		assert to != null : "Edge to was null";
+		assert isValidNode(from) : "From node bestaat niet";
+		assert isValidNode(to) : "To node bestaat niet";
+
+		Edge edge = new Edge(from, to, weight);
+
+		for (Node node : nodes) {
+			if (from == node) {
+				node.addEdge(edge);
+			}
+		}
 	}
-	
-	
-	
-	
+
+	/**
+	 * 
+	 * @param n
+	 *            the Node to check
+	 * @return true or false whether this is a valid node or not
+	 */
+	private boolean isValidNode(Node n) {
+		return nodes.contains(n);
+	}
+
+	/**
+	 * @return an immutable copy of the Nodes ArrayList
+	 */
+	protected ArrayList<Node> getNodes() {
+		return new ArrayList<Node>(nodes);
+	}
 
 }
