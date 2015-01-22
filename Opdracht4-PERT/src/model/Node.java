@@ -80,7 +80,6 @@ public class Node {
 			}
 		}
 		return false;
-
 	}
 
 	public ArrayList<Edge> getIncomingEdges() {

@@ -3,11 +3,14 @@ package model;
 import java.util.ArrayList;
 
 public class PERTNetwerk extends GenericGraph {
-
+	/**
+	 * 
+	 * @return all Nodes sorted in the topological order
+	 */
 	public ArrayList<Node> topologicalSort() {
 		ArrayList<Node> orderd = new ArrayList<Node>();
 		ArrayList<Node> topological = getFirstNodes(orderd, super.getNodes());
-		// restore in edges
+		// restore inEdges
 		for (Node node : nodes) {
 			for (Edge edge : node.getEdges()) {
 				edge.getTo().addIncomingEdge(edge);
@@ -31,24 +34,24 @@ public class PERTNetwerk extends GenericGraph {
 		}
 	}
 
-	// alle nodes die geen incomming edges hebben
-	// toevoegen aan lijst met georderd lijsten
+	/**
+	 * @param orderd
+	 * @param nodes
+	 * @return ArrayList with all Nodes that dont have incoming edges
+	 */
 	private ArrayList<Node> getFirstNodes(ArrayList<Node> orderd,
 			ArrayList<Node> nodes) {
-
 		for (Node node : nodes) {
 			ArrayList<Edge> inEdges = node.getIncomingEdges();
-
 			nodes.remove(node);
-			// Node had geen edges
+			// Node doesnt have edges
 			if (inEdges.size() == 0) {
 				orderd.add(node);
 				for (Edge edge : node.getEdges()) {
 					edge.getTo().removeInEdge(edge);
 				}
 			} else {
-				// node weer achteraan toevoegen zodat hij als laatste bekeken
-				// wordt
+				// adding Node on the back so it will be visited last
 				nodes.add(node);
 			}
 			break;
