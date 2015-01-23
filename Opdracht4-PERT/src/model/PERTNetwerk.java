@@ -28,6 +28,7 @@ public class PERTNetwerk extends GenericGraph {
 	 *            the list of Nodes in topoligal order
 	 */
 	private void calcEarliestTimes(ArrayList<Node> order) {
+		assert order != null : "Node list cannot be null";
 		// start at the first node and calc the earliest time
 		for (Node node : order) {
 			node.calcEarliestTime();
@@ -41,6 +42,7 @@ public class PERTNetwerk extends GenericGraph {
 	 *            the list of Nodes in topoligal order
 	 */
 	private void calcLatestTimes(ArrayList<Node> order) {
+		assert order != null : "Topological list cannot be null";
 		// start at the last node and calc the latest time
 		for (int i = order.size() - 1; i >= 0; i--) {
 			Node node = order.get(i);
@@ -58,6 +60,9 @@ public class PERTNetwerk extends GenericGraph {
 	 */
 	private ArrayList<Node> getFirstNodes(ArrayList<Node> orderd,
 			ArrayList<Node> nodes) {
+		assert orderd != null : "Topological list cannot be null";
+		assert nodes != null : "Node list cannot be null";
+
 		for (Node node : nodes) {
 			ArrayList<Edge> inEdges = node.getIncomingEdges();
 			nodes.remove(node);

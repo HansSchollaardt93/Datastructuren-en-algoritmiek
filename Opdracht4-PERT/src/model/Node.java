@@ -57,12 +57,12 @@ public class Node {
 	 *         http://graphviz-dev.appspot.com
 	 */
 	public String toDotStringEdges() {
-		String result = "";
+		String dot = "";
 		for (Edge edge : edges) {
-			result += name + " -> " + edge.getTo().name + " [label="
+			dot += name + "->" + edge.getTo().name + "[label="
 					+ edge.getWeight() + "]\n";
 		}
-		return result;
+		return dot;
 	}
 
 	/**
@@ -137,4 +137,14 @@ public class Node {
 			lastTime = min;
 		}
 	}
+
+	/**
+	 * Overriden so we can check for double Nodes
+	 */
+	@Override
+	public boolean equals(Object object) {
+		Node other = (Node) object;
+		return other.name.equals(name);
+	}
+
 }

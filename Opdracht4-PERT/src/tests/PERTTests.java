@@ -57,6 +57,21 @@ public class PERTTests {
 		netwerk.connect(A, A, 5);
 	}
 
+	@Test(expected = AssertionError.class)
+	public void testConnectNullNodes() {
+		correctNetwerk.connect(null, null, -5);
+	}
+
+	@Test(expected = AssertionError.class)
+	public void testConnectNodesNegativeWeight() {
+		correctNetwerk.connect(new Node("X"), new Node("Y"), -5);
+	}
+
+	@Test(expected = AssertionError.class)
+	public void testAddNullNodes() {
+		correctNetwerk.addNode(null);
+	}
+
 	@Test
 	public void testTopologicalOrder() {
 		assertEquals(correctNetwerk.topologicalSort().toString(),

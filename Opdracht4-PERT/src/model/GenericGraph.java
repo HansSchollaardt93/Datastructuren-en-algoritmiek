@@ -20,6 +20,7 @@ public abstract class GenericGraph {
 	 *            the Node to add to this Graph
 	 */
 	public void addNode(Node node) {
+		assert node != null : "Node cannot be null";
 		assert !nodes.contains(node) : "Node already exists";
 		nodes.add(node);
 	}
@@ -28,8 +29,6 @@ public abstract class GenericGraph {
 	 * Connects two Nodes with a given weight
 	 */
 	public void connect(Node from, Node to, int weight) {
-		assert from != null : "Edge from was null";
-		assert to != null : "Edge to was null";
 		assert isValidNode(from) : "From Node does not exist";
 		assert isValidNode(to) : "To Node does not exist";
 		assert from != to : "Cant connect two same Nodes";
@@ -49,7 +48,7 @@ public abstract class GenericGraph {
 	 * @return true or false whether this is a valid node or not
 	 */
 	private boolean isValidNode(Node n) {
-		return nodes.contains(n);
+		return n != null && nodes.contains(n);
 	}
 
 	/**
