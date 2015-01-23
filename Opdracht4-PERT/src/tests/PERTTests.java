@@ -39,8 +39,9 @@ public class PERTTests {
 		correctNetwerk.connect(B, F, 1);
 		correctNetwerk.connect(D, E, 1);
 		correctNetwerk.connect(F, C, 1);
+		correctNetwerk.topologicalSort();
 
-		// System.out.println(correctNetwerk);
+		System.out.println(correctNetwerk);
 	}
 
 	@Test
