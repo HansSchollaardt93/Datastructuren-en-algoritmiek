@@ -20,6 +20,7 @@ public abstract class GenericGraph {
 	 *            the Node to add to this Graph
 	 */
 	public void addNode(Node node) {
+		assert nodes.contains(node) : "Node already exists";
 		nodes.add(node);
 	}
 
@@ -29,11 +30,10 @@ public abstract class GenericGraph {
 	public void connect(Node from, Node to, int weight) {
 		assert from != null : "Edge from was null";
 		assert to != null : "Edge to was null";
-		assert isValidNode(from) : "From node bestaat niet";
-		assert isValidNode(to) : "To node bestaat niet";
+		assert isValidNode(from) : "From Node does not exist";
+		assert isValidNode(to) : "To Node does not exist";
 
 		Edge edge = new Edge(from, to, weight);
-
 		for (Node node : nodes) {
 			if (from == node) {
 				node.addEdge(edge);

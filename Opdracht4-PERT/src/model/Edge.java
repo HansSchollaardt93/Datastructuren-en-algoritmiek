@@ -1,7 +1,6 @@
 package model;
 
 public class Edge {
-	// connections where this Edge belongs to
 	private Node from, to;
 	private int weight;
 
@@ -16,9 +15,9 @@ public class Edge {
 	 *            weight of the edge
 	 */
 	protected Edge(Node from, Node to, int weight) {
-		assert from != null : "From was null";
-		assert to != null : "To was null";
-		assert weight >= 0 : "Node weight was to low";
+		assert from != null : "From cannot be null";
+		assert to != null : "To cannot be null";
+		assert weight >= 0 : "The weight has to be >=0";
 
 		this.from = from;
 		this.to = to;
