@@ -39,6 +39,8 @@ public class PERTTests {
 		correctNetwerk.connect(B, F, 1);
 		correctNetwerk.connect(D, E, 1);
 		correctNetwerk.connect(F, C, 1);
+
+		// System.out.println(correctNetwerk);
 	}
 
 	@Test
@@ -120,7 +122,39 @@ public class PERTTests {
 
 		netwerk.topologicalSort();
 
-		System.out.println(netwerk);
+		// System.out.println(netwerk);
+	}
+
+	@Test
+	public void testOneLine() {
+		PERTNetwerk netwerk = new PERTNetwerk();
+
+		Node A = new Node("A");
+		Node B = new Node("B");
+		Node C = new Node("C");
+		Node D = new Node("D");
+		Node E = new Node("E");
+		Node F = new Node("F");
+		Node G = new Node("G");
+
+		netwerk.addNode(A);
+		netwerk.addNode(B);
+		netwerk.addNode(C);
+		netwerk.addNode(D);
+		netwerk.addNode(E);
+		netwerk.addNode(F);
+		netwerk.addNode(G);
+
+		netwerk.connect(A, B, 2);
+		netwerk.connect(B, C, 5);
+		netwerk.connect(C, D, 1);
+		netwerk.connect(D, E, 3);
+		netwerk.connect(E, F, 4);
+		netwerk.connect(F, G, 6);
+
+		netwerk.topologicalSort();
+
+		// System.out.println(netwerk);
 	}
 
 	@Test(expected = AssertionError.class)
@@ -129,6 +163,7 @@ public class PERTTests {
 		Node A = new Node("A");
 		netwerk.addNode(A);
 		netwerk.addNode(A);
+		System.out.println(netwerk);
 	}
 
 	@Test(expected = AssertionError.class)
@@ -137,6 +172,7 @@ public class PERTTests {
 		Node A = new Node("A");
 		netwerk.addNode(A);
 		netwerk.connect(A, A, 5);
+		System.out.println(netwerk);
 	}
 
 	@Test(expected = AssertionError.class)
