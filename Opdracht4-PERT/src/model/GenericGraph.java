@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class GenericGraph {
 
-	protected ArrayList<Node> nodes;
+	private ArrayList<Node> nodes;
 
 	/**
 	 * Constructs a default weighted directed Graph
@@ -20,7 +20,7 @@ public abstract class GenericGraph {
 	 *            the Node to add to this Graph
 	 */
 	public void addNode(Node node) {
-		assert nodes.contains(node) : "Node already exists";
+		assert !nodes.contains(node) : "Node already exists";
 		nodes.add(node);
 	}
 
@@ -32,6 +32,7 @@ public abstract class GenericGraph {
 		assert to != null : "Edge to was null";
 		assert isValidNode(from) : "From Node does not exist";
 		assert isValidNode(to) : "To Node does not exist";
+		assert from != to : "Cant connect two same Nodes";
 
 		Edge edge = new Edge(from, to, weight);
 		for (Node node : nodes) {

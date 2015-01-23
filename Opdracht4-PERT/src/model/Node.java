@@ -29,7 +29,6 @@ public class Node {
 	protected void addEdge(Edge edge) {
 		assert edge != null : "Edge cannot be null";
 		assert !hasEdge(edge) : "Edge already exists";
-
 		edges.add(edge);
 		edge.getTo().addIncomingEdge(edge);
 	}
@@ -82,10 +81,18 @@ public class Node {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return all incoming Edges belonging to this Node
+	 */
 	public ArrayList<Edge> getIncomingEdges() {
 		return new ArrayList<Edge>(inEdges);
 	}
 
+	/**
+	 * 
+	 * @return all Edges that belong to this Node
+	 */
 	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
@@ -100,6 +107,9 @@ public class Node {
 		assert removed : "Edge was not deleted";
 	}
 
+	/**
+	 * Calculates the earliest time of this Node depending on neighbours
+	 */
 	public void calcEarliestTime() {
 		if (inEdges.isEmpty()) {
 			this.earliestTime = 0;
@@ -113,6 +123,9 @@ public class Node {
 		}
 	}
 
+	/**
+	 * Calculates the latest time of this Node depending on neighbours
+	 */
 	public void calcLastTime() {
 		if (edges.isEmpty()) {
 			this.lastTime = earliestTime;

@@ -9,33 +9,50 @@ public class PERTNetwerk extends GenericGraph {
 	 */
 	public ArrayList<Node> topologicalSort() {
 		ArrayList<Node> orderd = new ArrayList<Node>();
-		ArrayList<Node> topological = getFirstNodes(orderd, super.getNodes());
+		ArrayList<Node> topological = getFirstNodes(orderd, getNodes());
 		// restore inEdges
-		for (Node node : nodes) {
+		for (Node node : getNodes()) {
 			for (Edge edge : node.getEdges()) {
 				edge.getTo().addIncomingEdge(edge);
 			}
 		}
-		getEarliestTimes(orderd);
-		getLatestTimes(orderd);
+		calcEarliestTimes(orderd);
+		calcLatestTimes(orderd);
 		return topological;
 	}
 
-	private void getEarliestTimes(ArrayList<Node> orderd) {
-		for (Node node : orderd) {
+	/**
+	 * Calcs all earliest times for each Node in the specified list
+	 * 
+	 * @param order
+	 *            the list of Nodes in topoligal order
+	 */
+	private void calcEarliestTimes(ArrayList<Node> order) {
+		// start at the first node and calc the earliest time
+		for (Node node : order) {
 			node.calcEarliestTime();
 		}
 	}
 
-	private void getLatestTimes(ArrayList<Node> orderd) {
-		for (int i = orderd.size() - 1; i >= 0; i--) {
-			Node node = orderd.get(i);
+	/**
+	 * Calcs all lastest times for each Node in the specified list
+	 * 
+	 * @param order
+	 *            the list of Nodes in topoligal order
+	 */
+	private void calcLatestTimes(ArrayList<Node> order) {
+		// start at the last node and calc the latest time
+		for (int i = order.size() - 1; i >= 0; i--) {
+			Node node = order.get(i);
 			node.calcLastTime();
 		}
 	}
 
 	/**
+	 * Helper method to get all first Nodes
+	 * 
 	 * @param orderd
+	 *            the list of Nodes in topoligal order
 	 * @param nodes
 	 * @return ArrayList with all Nodes that dont have incoming edges
 	 */
@@ -69,14 +86,13 @@ public class PERTNetwerk extends GenericGraph {
 	@Override
 	public String toString() {
 		String result = "";
-		result += "digraph graaf {\n";
-		for (Node node : nodes) {
+		result += "digraph PERT {\n";
+		for (Node node : getNodes()) {
 			result += node.toDotStringEdges();
 		}
 
-		for (Node node : nodes) {
-			result += node.getName() + " [label=\"" + node.toString()
-					+ "\"];\n";
+		for (Node node : getNodes()) {
+			result += node.getName() + " [label=\"" + node + "\"];\n";
 		}
 		result += "}";
 		return result;

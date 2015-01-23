@@ -37,13 +37,11 @@ public class APL {
 		netwerk.connect(F, C, 1);
 
 		// Print graph
-		ArrayList<Node> orderd = netwerk.topologicalSort();
 		ArrayList<Node> order = netwerk.topologicalSort();
 
-		System.out.println("orderd: \n" + orderd.toString());
-		System.out.println("order: \n" + order.toString());
+		System.out.println("topological order: \n" + order.toString());
 
-		System.out.println("grapviz\n" + netwerk);
+		System.out.println("\ngrapviz\n" + netwerk);
 
 	}
 }
